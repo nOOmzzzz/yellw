@@ -7,14 +7,14 @@ import MusicBoxPlayer from './components/MusicBoxPlayer';
 import DedicationCard from './components/DedicationCard';
 import GoldenSeed from './components/GoldenSeed';
 import Bouquet from './components/flowers/Bouquet';
-import Sunflower from './components/flowers/Sunflower';
-import Narcissus from './components/flowers/Narcissus';
-import Daisy from './components/flowers/Daisy';
-import { FLOWER_OPTIONS, FlowerType } from './components/types';
+import BouquetTulips from './components/flowers/BouquetTulips';
+import BouquetSunflowers from './components/flowers/BouquetSunflowers';
+import BouquetWildflowers from './components/flowers/BouquetWildflowers';
+import { FLOWER_OPTIONS, BUILD_STEPS, FlowerType } from './components/types';
 
 export default function Home() {
   const [selectedFlower, setSelectedFlower] = useState<FlowerType>('bouquet');
-  // step: 0 = Golden Seed dot, 1 = Stem, 2 = Leaves, 3 = Bud, 4 = Full Bloom
+  // step: 0 = Seed, 1 = Stems, 2 = Foliage, 3 = Wrap/Ribbon, 4 = Flower placement, 5 = Full Bloom
   const [step, setStep] = useState<number>(0);
   const [renderKey, setRenderKey] = useState<number>(0);
 
@@ -24,10 +24,11 @@ export default function Home() {
   const [immersiveMode, setImmersiveMode] = useState(false);
 
   const currentMeta = FLOWER_OPTIONS.find((f) => f.id === selectedFlower)!;
+  const currentStepInfo = BUILD_STEPS[step] || BUILD_STEPS[0];
 
   // Advance growth step on click
   const handleNextStep = () => {
-    if (step < 4) {
+    if (step < 5) {
       setStep((prev) => prev + 1);
     }
   };
@@ -36,7 +37,6 @@ export default function Home() {
   const handleSelectFlower = (type: FlowerType) => {
     setSelectedFlower(type);
     setRenderKey((prev) => prev + 1);
-    // If already bloomed, remain bloomed with new flower; otherwise keep current step
   };
 
   // Reset to seed stage to re-build from the yellow dot
@@ -47,7 +47,7 @@ export default function Home() {
 
   // Instant full bloom
   const handleInstantBloom = () => {
-    setStep(4);
+    setStep(5);
     setRenderKey((prev) => prev + 1);
   };
 
@@ -59,8 +59,8 @@ export default function Home() {
         showFireflies={showFireflies}
       />
 
-      {/* Falling Petals Particle Effect (always active on full bloom or toggleable) */}
-      <FallingPetals active={showFallingPetals && step >= 3} />
+      {/* Falling Petals Particle Effect (active on step 4 & 5) */}
+      <FallingPetals active={showFallingPetals && step >= 4} />
 
       {/* Dedication Card Modal */}
       <DedicationCard
@@ -120,11 +120,11 @@ export default function Home() {
         </div>
       </header>
 
-      {/* CENTER STAGE: GOLDEN SEED OR GROWING FLOWER */}
+      {/* CENTER STAGE: GOLDEN SEED OR GROWING BOUQUET */}
       <div className="relative flex-1 w-full max-w-2xl mx-auto flex items-center justify-center px-4 pb-2 z-10">
         {step === 0 ? (
           /* Step 0: The glowing yellow point / Golden Seed */
-          <div className="w-full flex items-center justify-center py-12">
+          <div className="w-full flex items-center justify-center py-8">
             <GoldenSeed
               step={step}
               flowerName={currentMeta.name}
@@ -132,21 +132,27 @@ export default function Home() {
             />
           </div>
         ) : (
-          /* Step 1 to 4: The Growing / Blooming Flower */
+          /* Step 1 to 5: The Interactive Bouquet Being Built */
           <div
-            onClick={step < 4 ? handleNextStep : undefined}
-            className={`w-full h-[65vh] sm:h-[72vh] flex items-end justify-center relative cursor-pointer group`}
-            title={step < 4 ? 'Haz click para continuar armando la flor' : '¡Flor completa!'}
+            onClick={step < 5 ? handleNextStep : undefined}
+            className={`w-full h-[65vh] sm:h-[72vh] flex items-end justify-center relative ${
+              step < 5 ? 'cursor-pointer group' : ''
+            }`}
+            title={step < 5 ? 'Haz click para continuar armando tu ramo' : '¡Ramo completo!'}
           >
-            {/* Interactive hint bubble while growing */}
-            {step < 4 && (
-              <div className="absolute top-4 left-1/2 -translate-x-1/2 z-30 px-3.5 py-1.5 rounded-full bg-amber-400/25 border border-amber-400/40 text-amber-200 text-xs font-medium backdrop-blur-md shadow-lg animate-pulse flex items-center gap-2">
-                <span>Paso {step} de 4:</span>
-                <span>
-                  {step === 1 && '🌱 Creciendo tallo (Haz click aquí)'}
-                  {step === 2 && '🍃 Abriendo hojas (Haz click aquí)'}
-                  {step === 3 && '🌟 Formando capullo (Haz click para florecer)'}
-                </span>
+            {/* Step Helper Badge on top */}
+            {step < 5 ? (
+              <div className="absolute top-2 left-1/2 -translate-x-1/2 z-30 px-4 py-2 rounded-full bg-zinc-950/85 border border-amber-400/40 text-amber-200 text-xs sm:text-sm font-medium backdrop-blur-md shadow-2xl flex items-center gap-2 group-hover:scale-105 transition-transform animate-pulse">
+                <span>{currentStepInfo.icon}</span>
+                <span className="font-bold text-amber-300">Paso {step} de 5:</span>
+                <span>{currentStepInfo.title}</span>
+                <span className="text-[11px] text-zinc-400 hidden sm:inline">(Toca para avanzar)</span>
+              </div>
+            ) : (
+              <div className="absolute top-2 left-1/2 -translate-x-1/2 z-30 px-4 py-1.5 rounded-full bg-amber-400/20 border border-amber-400/50 text-amber-300 text-xs sm:text-sm font-semibold backdrop-blur-md shadow-lg flex items-center gap-2">
+                <span>💛</span>
+                <span>¡Ramo florecido con todo mi cariño!</span>
+                <span>✨</span>
               </div>
             )}
 
@@ -156,15 +162,15 @@ export default function Home() {
               className="w-full h-full flex items-end justify-center"
             >
               {selectedFlower === 'bouquet' && <Bouquet step={step} />}
-              {selectedFlower === 'sunflower' && <Sunflower step={step} />}
-              {selectedFlower === 'narcissus' && <Narcissus step={step} />}
-              {selectedFlower === 'wildflower' && <Daisy step={step} />}
+              {selectedFlower === 'tulips' && <BouquetTulips step={step} />}
+              {selectedFlower === 'sunflower' && <BouquetSunflowers step={step} />}
+              {selectedFlower === 'wildflower' && <BouquetWildflowers step={step} />}
             </div>
           </div>
         )}
       </div>
 
-      {/* BOTTOM CONTROLS & FLOWER SELECTOR */}
+      {/* BOTTOM CONTROLS & BOUQUET SELECTOR */}
       <footer
         className={`relative z-20 w-full max-w-3xl mx-auto p-4 sm:p-6 transition-all duration-500 ${
           immersiveMode ? 'opacity-0 pointer-events-none translate-y-8' : 'opacity-100'
@@ -174,7 +180,7 @@ export default function Home() {
           {/* Flower Selector Pills */}
           <div className="flex flex-col sm:flex-row items-center justify-between gap-2 sm:gap-4">
             <span className="text-xs font-semibold uppercase tracking-wider text-amber-300/90 self-start sm:self-center ml-1">
-              Escoge tu flor amarilla:
+              Escoge el estilo de tu ramo:
             </span>
 
             <div className="grid grid-cols-2 sm:flex items-center gap-1.5 sm:gap-2 w-full sm:w-auto">
@@ -184,14 +190,14 @@ export default function Home() {
                   <button
                     key={flower.id}
                     onClick={() => handleSelectFlower(flower.id)}
-                    className={`flex items-center justify-center gap-2 px-3 py-2 rounded-2xl text-xs sm:text-sm font-medium transition-all ${
+                    className={`flex items-center justify-center gap-1.5 px-3 py-2 rounded-2xl text-xs sm:text-sm font-medium transition-all ${
                       isSelected
                         ? 'bg-gradient-to-r from-amber-400 via-yellow-400 to-amber-300 text-zinc-950 font-bold shadow-lg shadow-amber-400/30 scale-[1.02]'
                         : 'bg-white/5 text-zinc-300 hover:bg-white/10 hover:text-white border border-white/5'
                     }`}
                   >
                     <span className="text-base">{flower.icon}</span>
-                    <span>{flower.name.split(' ')[0]}</span>
+                    <span>{flower.name.replace('Ramo de ', '').replace('Ramillete ', '')}</span>
                   </button>
                 );
               })}
@@ -204,22 +210,22 @@ export default function Home() {
               {/* Reset to Seed / Build again */}
               <button
                 onClick={handleResetToSeed}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-400/15 hover:bg-amber-400/25 text-amber-300 border border-amber-400/30 transition shadow-sm"
-                title="Volver a la semilla amarilla para armarla paso a paso con clicks"
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-400/15 hover:bg-amber-400/25 text-amber-300 border border-amber-400/30 transition shadow-sm font-medium"
+                title="Volver a la semilla amarilla para armar tu ramo paso a paso"
               >
                 <span>✨</span>
-                <span>Armar desde semilla</span>
+                <span>Armar paso a paso</span>
               </button>
 
               {/* Instant Bloom */}
-              {step < 4 && (
+              {step < 5 && (
                 <button
                   onClick={handleInstantBloom}
                   className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/5 hover:bg-white/10 text-zinc-300 hover:text-white transition border border-white/5"
-                  title="Completar florecimiento de inmediato"
+                  title="Ver ramo completo florecido de inmediato"
                 >
                   <span>⚡</span>
-                  <span>Florecer directo</span>
+                  <span>Ramo completo</span>
                 </button>
               )}
 
