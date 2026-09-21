@@ -1,4 +1,4 @@
-export type FlowerType = 'sunflower' | 'tulip' | 'daisy' | 'rose';
+export type FlowerType = 'bouquet' | 'sunflower' | 'narcissus' | 'wildflower';
 
 export interface FlowerMeta {
   id: FlowerType;
@@ -13,43 +13,43 @@ export interface FlowerMeta {
 
 export const FLOWER_OPTIONS: FlowerMeta[] = [
   {
+    id: 'bouquet',
+    name: 'Ramo de Flores Amarillas',
+    scientificName: 'Ramillete de Primavera',
+    tagline: 'El clásico ramo de primavera para regalar',
+    symbolism: 'Inspirado en la tradición del 21 de septiembre: promesa de amor, alegría y nuevos comienzos.',
+    icon: '💐',
+    accentColor: '#facc15',
+    glowColor: 'rgba(250, 204, 21, 0.45)',
+  },
+  {
     id: 'sunflower',
-    name: 'Girasol Radiante',
+    name: 'Girasol de Primavera',
     scientificName: 'Helianthus annuus',
-    tagline: 'Luz, vitalidad y lealtad',
-    symbolism: 'Símbolo de alegría incondicional, admiración y adoración eterna.',
+    tagline: 'Energía solar, admiración y calidez',
+    symbolism: 'Símbolo del sol de primavera, felicidad radiante y amor que siempre sigue tu luz.',
     icon: '🌻',
     accentColor: '#fbbf24',
     glowColor: 'rgba(251, 191, 36, 0.45)',
   },
   {
-    id: 'tulip',
-    name: 'Tulipán de Seda',
-    scientificName: 'Tulipa gesneriana',
-    tagline: 'Elegancia, ternura y renacer',
-    symbolism: 'Expresa afecto sincero, admiración refinada y luz compartida.',
-    icon: '🌷',
-    accentColor: '#facc15',
-    glowColor: 'rgba(250, 204, 21, 0.45)',
-  },
-  {
-    id: 'daisy',
-    name: 'Margarita Silvestre',
-    scientificName: 'Bellis perennis',
-    tagline: 'Inocencia, pureza y dicha',
-    symbolism: 'Alegría espontánea, nuevos comienzos y amistad entrañable.',
+    id: 'narcissus',
+    name: 'Narciso Dorado',
+    scientificName: 'Narcissus pseudonarcissus',
+    tagline: 'La flor insignia del inicio de la primavera',
+    symbolism: 'Representa el renacer de la primavera, la esperanza, la prosperidad y la belleza.',
     icon: '🌼',
     accentColor: '#fde047',
     glowColor: 'rgba(253, 224, 71, 0.45)',
   },
   {
-    id: 'rose',
-    name: 'Rosa Dorada',
-    scientificName: 'Rosa lutea',
-    tagline: 'Calidez, fascinación y magia',
-    symbolism: 'Amor cálido, compañerismo profundo y promesas luminosas.',
-    icon: '🌹',
-    accentColor: '#f59e0b',
-    glowColor: 'rgba(245, 158, 11, 0.45)',
+    id: 'wildflower',
+    name: 'Margarita Silvestre',
+    scientificName: 'Bellis perennis aurea',
+    tagline: 'La flor amarilla de Floricienta',
+    symbolism: 'Inocencia, espontaneidad, ternura y el sueño de florecer juntos.',
+    icon: '✨',
+    accentColor: '#fef08a',
+    glowColor: 'rgba(254, 240, 138, 0.45)',
   },
 ];

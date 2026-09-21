@@ -4,7 +4,11 @@ import React, { useState } from 'react';
 
 const DEDICATION_PRESETS = [
   {
-    title: 'Flores Amarillas (Clásico)',
+    title: 'Día de la Primavera (21 de Septiembre)',
+    text: '¡Feliz Día de la Primavera! Te regalo estas flores amarillas para que llenen tus días de luz, alegría y momentos inolvidables. 🌻💛✨',
+  },
+  {
+    title: 'Flores Amarillas (Floricienta)',
     text: 'Ella sabía que él sabía, que algún día pasaría, que vendría a buscarla con sus flores amarillas... 💛✨',
   },
   {
@@ -13,11 +17,7 @@ const DEDICATION_PRESETS = [
   },
   {
     title: 'Amistad Radiante',
-    text: 'Una flor dorada para celebrar nuestra complicidad, las risas compartidas y la dicha de tenerte en mi vida.',
-  },
-  {
-    title: 'Un Rayito de Luz',
-    text: 'Aunque a veces el cielo esté nublado, nunca olvides que tu propia luz hace florecer cualquier rincón.',
+    text: 'Un ramillete dorado para celebrar nuestra complicidad, las risas compartidas y la dicha de tenerte en mi vida.',
   },
 ];
 
