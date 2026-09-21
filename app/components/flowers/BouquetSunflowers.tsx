@@ -1,11 +1,11 @@
 'use client';
 
 import React from 'react';
+import BouquetWrapper from './BouquetWrapper';
 
 export default function BouquetSunflowers({ step = 5 }: { step?: number }) {
   const hasStems = step >= 1;
   const hasLeaves = step >= 2;
-  const hasWrap = step >= 3;
   const hasBuds = step >= 4;
   const hasBloom = step >= 5;
 
@@ -158,36 +158,27 @@ export default function BouquetSunflowers({ step = 5 }: { step?: number }) {
             <stop offset="100%" stopColor="#b45309" />
           </radialGradient>
 
-          <linearGradient id="wrapPaperSun" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#27272a" />
-            <stop offset="60%" stopColor="#18181b" />
-            <stop offset="100%" stopColor="#09090b" />
+          <linearGradient id="wrapPaperGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="#222226" />
+            <stop offset="50%" stopColor="#161618" />
+            <stop offset="100%" stopColor="#0b0b0d" />
           </linearGradient>
 
-          <linearGradient id="sunRibbon" x1="0%" y1="0%" x2="100%" y2="100%">
+          <linearGradient id="wrapInnerSilk" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="#fef08a" stopOpacity="0.22" />
+            <stop offset="100%" stopColor="#ca8a04" stopOpacity="0.10" />
+          </linearGradient>
+
+          <linearGradient id="wrapRibbonGrad" x1="0%" y1="0%" x2="100%" y2="100%">
             <stop offset="0%" stopColor="#fbbf24" />
-            <stop offset="50%" stopColor="#f59e0b" />
-            <stop offset="100%" stopColor="#b45309" />
+            <stop offset="45%" stopColor="#f59e0b" />
+            <stop offset="85%" stopColor="#d97706" />
+            <stop offset="100%" stopColor="#78350f" />
           </linearGradient>
         </defs>
 
         {/* LAYER 1: BACK WRAPPER COLLAR */}
-        <g
-          style={{
-            transformOrigin: '300px 720px',
-            opacity: hasWrap ? 1 : 0,
-            transform: hasWrap ? 'scale(1)' : 'scale(0.001)',
-            transition: 'all 1.4s cubic-bezier(0.34, 1.4, 0.64, 1) 0.1s',
-          }}
-        >
-          <path
-            d="M 230 730 L 70 280 Q 300 170 530 280 L 370 730 Z"
-            fill="url(#wrapPaperSun)"
-            stroke="#ca8a04"
-            strokeWidth="2.5"
-            filter="drop-shadow(0 12px 28px rgba(0,0,0,0.7))"
-          />
-        </g>
+        <BouquetWrapper layer="back" step={step} flowerType="sunflower" />
 
         {/* LAYER 2: STEMS */}
         <g>
@@ -290,51 +281,7 @@ export default function BouquetSunflowers({ step = 5 }: { step?: number }) {
         </g>
 
         {/* LAYER 5: FRONT WRAPPER & SATIN RIBBON */}
-        <g
-          style={{
-            transformOrigin: '300px 720px',
-            opacity: hasWrap ? 1 : 0,
-            transform: hasWrap ? 'scale(1)' : 'scale(0.001)',
-            transition: 'all 1.4s cubic-bezier(0.34, 1.4, 0.64, 1) 0.15s',
-          }}
-        >
-          <path
-            d="M 230 730 L 120 440 Q 280 480 370 455 L 360 730 Z"
-            fill="url(#wrapPaperSun)"
-            stroke="#eab308"
-            strokeWidth="1.8"
-            filter="drop-shadow(0 4px 10px rgba(0,0,0,0.5))"
-          />
-          <path
-            d="M 370 730 L 480 440 Q 320 475 230 455 L 240 730 Z"
-            fill="#18181b"
-            stroke="#fbbf24"
-            strokeWidth="2"
-            filter="drop-shadow(0 6px 14px rgba(0,0,0,0.6))"
-          />
-
-          <g transform="translate(300, 610)">
-            <path
-              d="M 0 0 C -45 -45, -90 -25, -90 10 C -90 35, -45 25, 0 0 Z"
-              fill="url(#sunRibbon)"
-              filter="drop-shadow(0 4px 6px rgba(0,0,0,0.5))"
-            />
-            <path
-              d="M 0 0 C 45 -45, 90 -25, 90 10 C 90 35, 45 25, 0 0 Z"
-              fill="url(#sunRibbon)"
-              filter="drop-shadow(0 4px 6px rgba(0,0,0,0.5))"
-            />
-            <path
-              d="M -8 5 C -28 35, -55 75, -70 115 C -55 105, -35 95, 0 12 Z"
-              fill="url(#sunRibbon)"
-            />
-            <path
-              d="M 8 5 C 28 35, 55 75, 70 115 C 55 105, 35 95, 0 12 Z"
-              fill="url(#sunRibbon)"
-            />
-            <ellipse cx="0" cy="2" rx="16" ry="14" fill="#fbbf24" stroke="#d97706" strokeWidth="2.5" />
-          </g>
-        </g>
+        <BouquetWrapper layer="front" step={step} flowerType="sunflower" />
       </svg>
     </div>
   );

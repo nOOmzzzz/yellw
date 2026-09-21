@@ -25,6 +25,7 @@ import { FLOWER_OPTIONS, BUILD_STEPS, FlowerType } from './components/types';
 
 export default function Home() {
   const [selectedFlower, setSelectedFlower] = useState<FlowerType>('bouquet');
+  const [isTransitioningFlower, setIsTransitioningFlower] = useState(false);
   // step: 0 = Seed, 1 = Stems, 2 = Foliage, 3 = Wrap/Ribbon, 4 = Flower placement, 5 = Full Bloom
   const [step, setStep] = useState<number>(0);
   const [renderKey, setRenderKey] = useState<number>(0);
@@ -44,10 +45,15 @@ export default function Home() {
     }
   };
 
-  // Switch flower
+  // Switch flower with soft-dissolve and bloom transition
   const handleSelectFlower = (type: FlowerType) => {
-    setSelectedFlower(type);
-    setRenderKey((prev) => prev + 1);
+    if (type === selectedFlower || isTransitioningFlower) return;
+    setIsTransitioningFlower(true);
+    setTimeout(() => {
+      setSelectedFlower(type);
+      setRenderKey((prev) => prev + 1);
+      setIsTransitioningFlower(false);
+    }, 260);
   };
 
   // Reset to seed stage to re-build from the yellow dot
@@ -179,10 +185,14 @@ export default function Home() {
               </div>
             )}
 
-            {/* Individual Keyed Flower Component to guarantee clean state transition */}
+            {/* Individual Keyed Flower Component with soft cross-dissolve & entrance animation */}
             <div
               key={`${selectedFlower}-${renderKey}`}
-              className="w-full h-full flex items-end justify-center"
+              className={`w-full h-full flex items-end justify-center transition-all duration-300 ${
+                isTransitioningFlower
+                  ? 'scale-95 opacity-0 blur-[3px] pointer-events-none'
+                  : 'animate-flower-entrance'
+              }`}
             >
               {selectedFlower === 'bouquet' && <Bouquet step={step} />}
               {selectedFlower === 'tulips' && <BouquetTulips step={step} />}

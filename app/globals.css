@@ -177,3 +177,23 @@ body {
   }
 }
 
+@keyframes flowerEntrance {
+  0% {
+    opacity: 0;
+    transform: scale(0.92) translateY(12px);
+    filter: blur(4px);
+  }
+  50% {
+    filter: blur(1px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0px);
+    filter: blur(0px);
+  }
+}
+
+.animate-flower-entrance {
+  animation: flowerEntrance 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
