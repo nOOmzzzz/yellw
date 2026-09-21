@@ -171,11 +171,29 @@ export default function BouquetSunflowers({ step = 5 }: { step?: number }) {
           </linearGradient>
         </defs>
 
-        {/* --- STEMS (3 THICK SUNFLOWER STEMS) --- */}
-        <g>
-          {/* Left Stem -> (180, 310) */}
+        {/* LAYER 1: BACK WRAPPER COLLAR */}
+        <g
+          style={{
+            transformOrigin: '300px 720px',
+            opacity: hasWrap ? 1 : 0,
+            transform: hasWrap ? 'scale(1)' : 'scale(0.001)',
+            transition: 'all 1.4s cubic-bezier(0.34, 1.4, 0.64, 1) 0.1s',
+          }}
+        >
           <path
-            d="M 300 760 C 285 640, 210 470, 180 310"
+            d="M 230 730 L 70 280 Q 300 170 530 280 L 370 730 Z"
+            fill="url(#wrapPaperSun)"
+            stroke="#ca8a04"
+            strokeWidth="2.5"
+            filter="drop-shadow(0 12px 28px rgba(0,0,0,0.7))"
+          />
+        </g>
+
+        {/* LAYER 2: STEMS */}
+        <g>
+          {/* Left Stem -> (190, 320) */}
+          <path
+            d="M 300 710 C 280 610, 215 470, 190 320"
             fill="none"
             stroke="url(#sunStemGrad)"
             strokeWidth="14"
@@ -187,9 +205,9 @@ export default function BouquetSunflowers({ step = 5 }: { step?: number }) {
             }}
           />
 
-          {/* Right Stem -> (420, 310) */}
+          {/* Right Stem -> (410, 320) */}
           <path
-            d="M 300 760 C 315 640, 390 470, 420 310"
+            d="M 300 710 C 320 610, 385 470, 410 320"
             fill="none"
             stroke="url(#sunStemGrad)"
             strokeWidth="14"
@@ -201,9 +219,9 @@ export default function BouquetSunflowers({ step = 5 }: { step?: number }) {
             }}
           />
 
-          {/* Center Tall Stem -> (300, 210) */}
+          {/* Center Tall Stem -> (300, 220) */}
           <path
-            d="M 300 760 C 298 620, 298 420, 300 210"
+            d="M 300 710 C 298 600, 298 420, 300 220"
             fill="none"
             stroke="url(#sunStemGrad)"
             strokeWidth="16"
@@ -216,9 +234,8 @@ export default function BouquetSunflowers({ step = 5 }: { step?: number }) {
           />
         </g>
 
-        {/* --- BROAD LEAVES --- */}
+        {/* LAYER 3: LEAVES */}
         <g>
-          {/* Far Left Leaf */}
           <g transform="translate(230, 520)">
             <g
               style={{
@@ -237,7 +254,6 @@ export default function BouquetSunflowers({ step = 5 }: { step?: number }) {
             </g>
           </g>
 
-          {/* Far Right Leaf */}
           <g transform="translate(370, 520)">
             <g
               style={{
@@ -257,73 +273,66 @@ export default function BouquetSunflowers({ step = 5 }: { step?: number }) {
           </g>
         </g>
 
-        {/* --- 3 SUNFLOWER HEADS --- */}
-        {/* Left Sunflower -> (180, 310) */}
-        <g transform="translate(180, 310) rotate(-15)">
+        {/* LAYER 4: 3 SUNFLOWER HEADS */}
+        {/* Left Sunflower -> (190, 320) */}
+        <g transform="translate(190, 320) rotate(-14)">
           {renderSunflowerHead(0.85, 0.1)}
         </g>
 
-        {/* Right Sunflower -> (420, 310) */}
-        <g transform="translate(420, 310) rotate(15)">
+        {/* Right Sunflower -> (410, 320) */}
+        <g transform="translate(410, 320) rotate(14)">
           {renderSunflowerHead(0.85, 0.15)}
         </g>
 
-        {/* Center Main Sunflower -> (300, 210) */}
-        <g transform="translate(300, 210)">
+        {/* Center Main Sunflower -> (300, 220) */}
+        <g transform="translate(300, 220)">
           {renderSunflowerHead(1.1, 0.25)}
         </g>
 
-        {/* --- FLORAL WRAPPER & SATIN RIBBON --- */}
-        <g transform="translate(300, 600)">
-          <g
-            style={{
-              transformOrigin: '0px 0px',
-              opacity: hasWrap ? 1 : 0,
-              transform: hasWrap ? 'scale(1)' : 'scale(0.001)',
-              transition: 'all 1.4s cubic-bezier(0.34, 1.4, 0.64, 1) 0.1s',
-            }}
-          >
-            {/* Wrapper cone */}
-            <path
-              d="M -180 -120 L 180 -120 L 75 160 L -75 160 Z"
-              fill="url(#wrapPaperSun)"
-              stroke="#ca8a04"
-              strokeWidth="2"
-              filter="drop-shadow(0 8px 16px rgba(0,0,0,0.6))"
-            />
-            <path
-              d="M -175 -110 L 60 -5 L -45 158 L -75 158 Z"
-              fill="#27272a"
-              stroke="#eab308"
-              strokeWidth="1.8"
-            />
-            <path
-              d="M 175 -110 L -60 -5 L 45 158 L 75 158 Z"
-              fill="#18181b"
-              stroke="#fbbf24"
-              strokeWidth="2"
-            />
+        {/* LAYER 5: FRONT WRAPPER & SATIN RIBBON */}
+        <g
+          style={{
+            transformOrigin: '300px 720px',
+            opacity: hasWrap ? 1 : 0,
+            transform: hasWrap ? 'scale(1)' : 'scale(0.001)',
+            transition: 'all 1.4s cubic-bezier(0.34, 1.4, 0.64, 1) 0.15s',
+          }}
+        >
+          <path
+            d="M 230 730 L 120 440 Q 280 480 370 455 L 360 730 Z"
+            fill="url(#wrapPaperSun)"
+            stroke="#eab308"
+            strokeWidth="1.8"
+            filter="drop-shadow(0 4px 10px rgba(0,0,0,0.5))"
+          />
+          <path
+            d="M 370 730 L 480 440 Q 320 475 230 455 L 240 730 Z"
+            fill="#18181b"
+            stroke="#fbbf24"
+            strokeWidth="2"
+            filter="drop-shadow(0 6px 14px rgba(0,0,0,0.6))"
+          />
 
-            {/* Ribbon Bow */}
+          <g transform="translate(300, 610)">
             <path
-              d="M 0 0 C -40 -40, -85 -20, -85 10 C -85 35, -40 25, 0 0 Z"
+              d="M 0 0 C -45 -45, -90 -25, -90 10 C -90 35, -45 25, 0 0 Z"
               fill="url(#sunRibbon)"
               filter="drop-shadow(0 4px 6px rgba(0,0,0,0.5))"
             />
             <path
-              d="M 0 0 C 40 -40, 85 -20, 85 10 C 85 35, 40 25, 0 0 Z"
+              d="M 0 0 C 45 -45, 90 -25, 90 10 C 90 35, 45 25, 0 0 Z"
               fill="url(#sunRibbon)"
               filter="drop-shadow(0 4px 6px rgba(0,0,0,0.5))"
             />
             <path
-              d="M -8 5 C -25 35, -50 75, -65 110 C -50 100, -30 90, 0 12 Z"
+              d="M -8 5 C -28 35, -55 75, -70 115 C -55 105, -35 95, 0 12 Z"
               fill="url(#sunRibbon)"
             />
             <path
-              d="M 8 5 C 25 35, 50 75, 65 110 C 50 100, 30 90, 0 12 Z"
+              d="M 8 5 C 28 35, 55 75, 70 115 C 55 105, 35 95, 0 12 Z"
               fill="url(#sunRibbon)"
             />
-            <ellipse cx="0" cy="2" rx="15" ry="13" fill="#fbbf24" stroke="#d97706" strokeWidth="2.5" />
+            <ellipse cx="0" cy="2" rx="16" ry="14" fill="#fbbf24" stroke="#d97706" strokeWidth="2.5" />
           </g>
         </g>
       </svg>

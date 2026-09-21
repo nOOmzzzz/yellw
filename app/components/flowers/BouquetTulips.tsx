@@ -119,21 +119,18 @@ export default function BouquetTulips({ step = 5 }: { step?: number }) {
         className="w-auto h-full max-h-[70vh] sm:max-h-[75vh] overflow-visible drop-shadow-2xl"
       >
         <defs>
-          {/* Tulip Stem Gradient */}
           <linearGradient id="tulipBouquetStem" x1="0%" y1="0%" x2="100%" y2="0%">
             <stop offset="0%" stopColor="#15803d" />
             <stop offset="50%" stopColor="#22c55e" />
             <stop offset="100%" stopColor="#166534" />
           </linearGradient>
 
-          {/* Leaves Gradient */}
           <linearGradient id="tulipBouquetLeaf" x1="0%" y1="100%" x2="100%" y2="0%">
             <stop offset="0%" stopColor="#14532d" />
             <stop offset="60%" stopColor="#16a34a" />
             <stop offset="100%" stopColor="#4ade80" />
           </linearGradient>
 
-          {/* Tulip Petals Gradients */}
           <linearGradient id="tulipBackGrad" x1="50%" y1="100%" x2="50%" y2="0%">
             <stop offset="0%" stopColor="#b45309" />
             <stop offset="40%" stopColor="#d97706" />
@@ -164,7 +161,7 @@ export default function BouquetTulips({ step = 5 }: { step?: number }) {
 
           <linearGradient id="wrapInnerPaper" x1="0%" y1="0%" x2="100%" y2="100%">
             <stop offset="0%" stopColor="#fef3c7" stopOpacity="0.25" />
-            <stop offset="100%" stopColor="#d97706" stopOpacity="0.15" />
+            <stop offset="100%" stopColor="#d97706" stopOpacity="0.12" />
           </linearGradient>
 
           <linearGradient id="goldRibbon" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -175,11 +172,41 @@ export default function BouquetTulips({ step = 5 }: { step?: number }) {
           </linearGradient>
         </defs>
 
-        {/* --- STEMS (5 CURVED TULIP STEMS) --- */}
-        <g>
-          {/* Outer Left Stem -> (140, 360) */}
+        {/* ========================================================
+            LAYER 1: BACK WRAPPER COLLAR (Sits BEHIND flowers & stems)
+            ======================================================== */}
+        <g
+          style={{
+            transformOrigin: '300px 720px',
+            opacity: hasWrap ? 1 : 0,
+            transform: hasWrap ? 'scale(1)' : 'scale(0.001)',
+            transition: 'all 1.4s cubic-bezier(0.34, 1.4, 0.64, 1) 0.1s',
+          }}
+        >
+          {/* Back Paper Flared Cone: cradles flowers from y:220 to y:730 */}
           <path
-            d="M 300 760 C 270 650, 180 500, 140 360"
+            d="M 230 730 L 75 290 Q 300 180 525 290 L 370 730 Z"
+            fill="url(#wrapOuterPaper)"
+            stroke="#ca8a04"
+            strokeWidth="2.5"
+            filter="drop-shadow(0 12px 28px rgba(0,0,0,0.7))"
+          />
+          {/* Inner Golden Silky Lining */}
+          <path
+            d="M 240 710 L 95 305 Q 300 205 505 305 L 360 710 Z"
+            fill="url(#wrapInnerPaper)"
+            stroke="rgba(250, 204, 21, 0.45)"
+            strokeWidth="1.5"
+          />
+        </g>
+
+        {/* ========================================================
+            LAYER 2: STEMS (Emerging from inside wrapper at y:710)
+            ======================================================== */}
+        <g>
+          {/* Outer Left Stem -> (165, 370) */}
+          <path
+            d="M 300 710 C 275 620, 200 480, 165 370"
             fill="none"
             stroke="url(#tulipBouquetStem)"
             strokeWidth="11"
@@ -191,9 +218,9 @@ export default function BouquetTulips({ step = 5 }: { step?: number }) {
             }}
           />
 
-          {/* Inner Left Stem -> (220, 270) */}
+          {/* Inner Left Stem -> (230, 290) */}
           <path
-            d="M 300 760 C 285 630, 230 450, 220 270"
+            d="M 300 710 C 285 590, 240 440, 230 290"
             fill="none"
             stroke="url(#tulipBouquetStem)"
             strokeWidth="12"
@@ -205,9 +232,9 @@ export default function BouquetTulips({ step = 5 }: { step?: number }) {
             }}
           />
 
-          {/* Center Tall Stem -> (300, 200) */}
+          {/* Center Tall Stem -> (300, 220) */}
           <path
-            d="M 300 760 C 298 600, 298 420, 300 200"
+            d="M 300 710 C 298 580, 298 400, 300 220"
             fill="none"
             stroke="url(#tulipBouquetStem)"
             strokeWidth="13"
@@ -219,9 +246,9 @@ export default function BouquetTulips({ step = 5 }: { step?: number }) {
             }}
           />
 
-          {/* Inner Right Stem -> (380, 270) */}
+          {/* Inner Right Stem -> (370, 290) */}
           <path
-            d="M 300 760 C 315 630, 370 450, 380 270"
+            d="M 300 710 C 315 590, 360 440, 370 290"
             fill="none"
             stroke="url(#tulipBouquetStem)"
             strokeWidth="12"
@@ -233,9 +260,9 @@ export default function BouquetTulips({ step = 5 }: { step?: number }) {
             }}
           />
 
-          {/* Outer Right Stem -> (460, 360) */}
+          {/* Outer Right Stem -> (435, 370) */}
           <path
-            d="M 300 760 C 330 650, 420 500, 460 360"
+            d="M 300 710 C 325 620, 400 480, 435 370"
             fill="none"
             stroke="url(#tulipBouquetStem)"
             strokeWidth="11"
@@ -248,10 +275,12 @@ export default function BouquetTulips({ step = 5 }: { step?: number }) {
           />
         </g>
 
-        {/* --- TULIP LEAVES (ARCHING & ENVELOPING) --- */}
+        {/* ========================================================
+            LAYER 3: FOLIAGE & LEAVES
+            ======================================================== */}
         <g>
-          {/* Far Left arching leaf */}
-          <g transform="translate(230, 580)">
+          {/* Left Wing Leaf peeking from wrapper */}
+          <g transform="translate(210, 500)">
             <g
               style={{
                 transformOrigin: '0px 0px',
@@ -261,7 +290,7 @@ export default function BouquetTulips({ step = 5 }: { step?: number }) {
               }}
             >
               <path
-                d="M 0 0 C -60 -70, -140 -160, -150 -260 C -120 -180, -60 -90, 0 0 Z"
+                d="M 0 0 C -45 -50, -100 -120, -110 -200 C -90 -130, -45 -60, 0 0 Z"
                 fill="url(#tulipBouquetLeaf)"
                 stroke="#14532d"
                 strokeWidth="1.5"
@@ -269,8 +298,8 @@ export default function BouquetTulips({ step = 5 }: { step?: number }) {
             </g>
           </g>
 
-          {/* Far Right arching leaf */}
-          <g transform="translate(370, 580)">
+          {/* Right Wing Leaf peeking from wrapper */}
+          <g transform="translate(390, 500)">
             <g
               style={{
                 transformOrigin: '0px 0px',
@@ -280,7 +309,7 @@ export default function BouquetTulips({ step = 5 }: { step?: number }) {
               }}
             >
               <path
-                d="M 0 0 C 60 -70, 140 -160, 150 -260 C 120 -180, 60 -90, 0 0 Z"
+                d="M 0 0 C 45 -50, 100 -120, 110 -200 C 90 -130, 45 -60, 0 0 Z"
                 fill="url(#tulipBouquetLeaf)"
                 stroke="#14532d"
                 strokeWidth="1.5"
@@ -288,8 +317,8 @@ export default function BouquetTulips({ step = 5 }: { step?: number }) {
             </g>
           </g>
 
-          {/* Mid Leaves hugging center */}
-          <g transform="translate(280, 480)">
+          {/* Central leaves */}
+          <g transform="translate(270, 430)">
             <g
               style={{
                 transformOrigin: '0px 0px',
@@ -299,13 +328,13 @@ export default function BouquetTulips({ step = 5 }: { step?: number }) {
               }}
             >
               <path
-                d="M 0 0 C -40 -60, -70 -140, -50 -230 C -25 -150, 0 -70, 0 0 Z"
+                d="M 0 0 C -30 -40, -50 -100, -35 -170 C -15 -100, 0 -50, 0 0 Z"
                 fill="url(#tulipBouquetLeaf)"
               />
             </g>
           </g>
 
-          <g transform="translate(320, 480)">
+          <g transform="translate(330, 430)">
             <g
               style={{
                 transformOrigin: '0px 0px',
@@ -315,109 +344,99 @@ export default function BouquetTulips({ step = 5 }: { step?: number }) {
               }}
             >
               <path
-                d="M 0 0 C 40 -60, 70 -140, 50 -230 C 25 -150, 0 -70, 0 0 Z"
+                d="M 0 0 C 30 -40, 50 -100, 35 -170 C 15 -100, 0 -50, 0 0 Z"
                 fill="url(#tulipBouquetLeaf)"
               />
             </g>
           </g>
         </g>
 
-        {/* --- 5 TULIP BLOOM HEADS --- */}
-        {/* Outer Left Tulip -> (140, 360) */}
-        <g transform="translate(140, 360) rotate(-22)">
+        {/* ========================================================
+            LAYER 4: 5 TULIP BLOOMS (Cradled inside bouquet backdrop)
+            ======================================================== */}
+        {/* Outer Left Tulip -> (165, 370) - Nestled just above wrapper rim */}
+        <g transform="translate(165, 370) rotate(-20)">
           {renderTulipHead(0.85, 0.1)}
         </g>
 
-        {/* Inner Left Tulip -> (220, 270) */}
-        <g transform="translate(220, 270) rotate(-10)">
+        {/* Inner Left Tulip -> (230, 290) */}
+        <g transform="translate(230, 290) rotate(-10)">
           {renderTulipHead(0.92, 0.2)}
         </g>
 
-        {/* Outer Right Tulip -> (460, 360) */}
-        <g transform="translate(460, 360) rotate(22)">
+        {/* Outer Right Tulip -> (435, 370) - Nestled just above wrapper rim */}
+        <g transform="translate(435, 370) rotate(20)">
           {renderTulipHead(0.85, 0.15)}
         </g>
 
-        {/* Inner Right Tulip -> (380, 270) */}
-        <g transform="translate(380, 270) rotate(10)">
+        {/* Inner Right Tulip -> (370, 290) */}
+        <g transform="translate(370, 290) rotate(10)">
           {renderTulipHead(0.92, 0.25)}
         </g>
 
-        {/* Center Main Tulip -> (300, 200) */}
-        <g transform="translate(300, 200)">
+        {/* Center Main Tulip -> (300, 220) - Crown of the bouquet */}
+        <g transform="translate(300, 220)">
           {renderTulipHead(1.1, 0.3)}
         </g>
 
-        {/* --- FLORAL BOUQUET WRAPPER & GOLDEN SATIN RIBBON --- */}
-        <g transform="translate(300, 600)">
-          <g
-            style={{
-              transformOrigin: '0px 0px',
-              opacity: hasWrap ? 1 : 0,
-              transform: hasWrap ? 'scale(1)' : 'scale(0.001)',
-              transition: 'all 1.4s cubic-bezier(0.34, 1.4, 0.64, 1) 0.1s',
-            }}
-          >
-            {/* Back Paper Layer (Flared Conical Silhouette) */}
-            <path
-              d="M -170 -130 L 170 -130 L 70 160 L -70 160 Z"
-              fill="url(#wrapOuterPaper)"
-              stroke="#ca8a04"
-              strokeWidth="2"
-              filter="drop-shadow(0 8px 16px rgba(0,0,0,0.6))"
-            />
+        {/* ========================================================
+            LAYER 5: FRONT WRAPPER CONE & SATIN RIBBON BOW
+            (Covers lower stems and wraps around the bouquet waist)
+            ======================================================== */}
+        <g
+          style={{
+            transformOrigin: '300px 720px',
+            opacity: hasWrap ? 1 : 0,
+            transform: hasWrap ? 'scale(1)' : 'scale(0.001)',
+            transition: 'all 1.4s cubic-bezier(0.34, 1.4, 0.64, 1) 0.15s',
+          }}
+        >
+          {/* Front Left Wrapper Diagonal Fold */}
+          <path
+            d="M 230 730 L 120 440 Q 280 480 370 455 L 360 730 Z"
+            fill="url(#wrapOuterPaper)"
+            stroke="#eab308"
+            strokeWidth="1.8"
+            filter="drop-shadow(0 4px 10px rgba(0,0,0,0.5))"
+          />
 
-            {/* Inner Decorative Translucent Fold */}
-            <path
-              d="M -150 -125 L 0 -20 L 150 -125 L 50 155 L -50 155 Z"
-              fill="url(#wrapInnerPaper)"
-              stroke="rgba(250, 204, 21, 0.5)"
-              strokeWidth="1.5"
-            />
+          {/* Front Right Overlapping Wrapper Fold (Origami style V-collar) */}
+          <path
+            d="M 370 730 L 480 440 Q 320 475 230 455 L 240 730 Z"
+            fill="#18181b"
+            stroke="#fbbf24"
+            strokeWidth="2"
+            filter="drop-shadow(0 6px 14px rgba(0,0,0,0.6))"
+          />
 
-            {/* Front Left Wrapper Fold */}
-            <path
-              d="M -165 -120 L 60 -10 L -45 158 L -70 158 Z"
-              fill="url(#wrapOuterPaper)"
-              stroke="#eab308"
-              strokeWidth="1.8"
-            />
+          {/* Metallic Gold Trim Lines */}
+          <path d="M 120 440 Q 280 480 370 455" fill="none" stroke="#fde047" strokeWidth="2.5" />
+          <path d="M 480 440 Q 320 475 230 455" fill="none" stroke="#facc15" strokeWidth="2.5" />
 
-            {/* Front Right Wrapper Fold (Overlapping) */}
-            <path
-              d="M 165 -120 L -60 -10 L 45 158 L 70 158 Z"
-              fill="#18181b"
-              stroke="#fbbf24"
-              strokeWidth="2"
-            />
-
-            {/* Decorative Gold Ribbon Border */}
-            <line x1="-160" y1="-115" x2="60" y2="-8" stroke="#facc15" strokeWidth="2.5" />
-            <line x1="160" y1="-115" x2="-60" y2="-8" stroke="#fde047" strokeWidth="2.5" />
-
-            {/* --- SATIN RIBBON BOW & TAILS --- */}
+          {/* --- SATIN RIBBON BOW & FLOWING TAILS (Tied at y: 610) --- */}
+          <g transform="translate(300, 610)">
             {/* Left Ribbon Loop */}
             <path
-              d="M 0 0 C -40 -40, -85 -20, -85 10 C -85 35, -40 25, 0 0 Z"
+              d="M 0 0 C -45 -45, -90 -25, -90 10 C -90 35, -45 25, 0 0 Z"
               fill="url(#goldRibbon)"
               filter="drop-shadow(0 4px 6px rgba(0,0,0,0.5))"
             />
             {/* Right Ribbon Loop */}
             <path
-              d="M 0 0 C 40 -40, 85 -20, 85 10 C 85 35, 40 25, 0 0 Z"
+              d="M 0 0 C 45 -45, 90 -25, 90 10 C 90 35, 45 25, 0 0 Z"
               fill="url(#goldRibbon)"
               filter="drop-shadow(0 4px 6px rgba(0,0,0,0.5))"
             />
 
             {/* Left Flowing Ribbon Tail */}
             <path
-              d="M -8 5 C -25 35, -50 75, -65 110 C -50 100, -30 90, 0 12 Z"
+              d="M -8 5 C -28 35, -55 75, -70 115 C -55 105, -35 95, 0 12 Z"
               fill="url(#goldRibbon)"
               filter="drop-shadow(0 3px 6px rgba(0,0,0,0.4))"
             />
             {/* Right Flowing Ribbon Tail */}
             <path
-              d="M 8 5 C 25 35, 50 75, 65 110 C 50 100, 30 90, 0 12 Z"
+              d="M 8 5 C 28 35, 55 75, 70 115 C 55 105, 35 95, 0 12 Z"
               fill="url(#goldRibbon)"
               filter="drop-shadow(0 3px 6px rgba(0,0,0,0.4))"
             />
@@ -426,14 +445,14 @@ export default function BouquetTulips({ step = 5 }: { step?: number }) {
             <ellipse
               cx="0"
               cy="2"
-              rx="15"
-              ry="13"
+              rx="16"
+              ry="14"
               fill="#fbbf24"
               stroke="#d97706"
               strokeWidth="2.5"
               filter="drop-shadow(0 2px 6px rgba(0,0,0,0.6))"
             />
-            <circle cx="-3" cy="-1" r="3" fill="#ffffff" opacity="0.6" />
+            <circle cx="-3" cy="-1" r="3.5" fill="#ffffff" opacity="0.6" />
           </g>
         </g>
       </svg>

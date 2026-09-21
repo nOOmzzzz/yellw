@@ -189,7 +189,7 @@ export default function Bouquet({ step = 5 }: { step?: number }) {
 
           <linearGradient id="bouquetWrapInner" x1="0%" y1="0%" x2="100%" y2="100%">
             <stop offset="0%" stopColor="#fde047" stopOpacity="0.25" />
-            <stop offset="100%" stopColor="#b45309" stopOpacity="0.15" />
+            <stop offset="100%" stopColor="#b45309" stopOpacity="0.12" />
           </linearGradient>
 
           <linearGradient id="ribbonGrad" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -200,11 +200,41 @@ export default function Bouquet({ step = 5 }: { step?: number }) {
           </linearGradient>
         </defs>
 
-        {/* --- STEMS (5 STEMS FORMING A DENSE FAN) --- */}
-        <g>
-          {/* Far Left Stem -> (150, 360) */}
+        {/* ========================================================
+            LAYER 1: BACK WRAPPER COLLAR (Sits BEHIND all flowers)
+            ======================================================== */}
+        <g
+          style={{
+            transformOrigin: '300px 720px',
+            opacity: hasWrap ? 1 : 0,
+            transform: hasWrap ? 'scale(1)' : 'scale(0.001)',
+            transition: 'all 1.4s cubic-bezier(0.34, 1.4, 0.64, 1) 0.1s',
+          }}
+        >
+          {/* Back Paper Flared Cone */}
           <path
-            d="M 300 760 C 270 650, 190 500, 150 360"
+            d="M 230 730 L 75 290 Q 300 175 525 290 L 370 730 Z"
+            fill="url(#bouquetWrapOuter)"
+            stroke="#ca8a04"
+            strokeWidth="2.5"
+            filter="drop-shadow(0 12px 28px rgba(0,0,0,0.7))"
+          />
+          {/* Inner Golden Translucent Lining */}
+          <path
+            d="M 240 710 L 95 305 Q 300 200 505 305 L 360 710 Z"
+            fill="url(#bouquetWrapInner)"
+            stroke="rgba(250, 204, 21, 0.45)"
+            strokeWidth="1.5"
+          />
+        </g>
+
+        {/* ========================================================
+            LAYER 2: STEMS (Emerging from inside wrapper at y:710)
+            ======================================================== */}
+        <g>
+          {/* Far Left Stem -> (165, 360) */}
+          <path
+            d="M 300 710 C 275 620, 195 480, 165 360"
             fill="none"
             stroke="url(#bouquetStemGrad)"
             strokeWidth="11"
@@ -216,9 +246,9 @@ export default function Bouquet({ step = 5 }: { step?: number }) {
             }}
           />
 
-          {/* Inner Left Stem -> (220, 270) */}
+          {/* Inner Left Stem -> (225, 280) */}
           <path
-            d="M 300 760 C 285 630, 230 450, 220 270"
+            d="M 300 710 C 285 590, 235 440, 225 280"
             fill="none"
             stroke="url(#bouquetStemGrad)"
             strokeWidth="12"
@@ -230,9 +260,9 @@ export default function Bouquet({ step = 5 }: { step?: number }) {
             }}
           />
 
-          {/* Center Tall Stem -> (300, 200) */}
+          {/* Center Tall Stem -> (300, 210) */}
           <path
-            d="M 300 760 C 298 620, 298 420, 300 200"
+            d="M 300 710 C 298 580, 298 400, 300 210"
             fill="none"
             stroke="url(#bouquetStemGrad)"
             strokeWidth="13"
@@ -244,9 +274,9 @@ export default function Bouquet({ step = 5 }: { step?: number }) {
             }}
           />
 
-          {/* Inner Right Stem -> (380, 270) */}
+          {/* Inner Right Stem -> (375, 280) */}
           <path
-            d="M 300 760 C 315 630, 370 450, 380 270"
+            d="M 300 710 C 315 590, 365 440, 375 280"
             fill="none"
             stroke="url(#bouquetStemGrad)"
             strokeWidth="12"
@@ -258,9 +288,9 @@ export default function Bouquet({ step = 5 }: { step?: number }) {
             }}
           />
 
-          {/* Far Right Stem -> (450, 360) */}
+          {/* Far Right Stem -> (435, 360) */}
           <path
-            d="M 300 760 C 330 650, 410 500, 450 360"
+            d="M 300 710 C 325 620, 405 480, 435 360"
             fill="none"
             stroke="url(#bouquetStemGrad)"
             strokeWidth="11"
@@ -273,20 +303,22 @@ export default function Bouquet({ step = 5 }: { step?: number }) {
           />
         </g>
 
-        {/* --- LEAVES & FLORAL FILLER FOLIAGE --- */}
+        {/* ========================================================
+            LAYER 3: FOLIAGE & LEAVES
+            ======================================================== */}
         <g>
           {/* Left Wing Leaf */}
-          <g transform="translate(240, 580)">
+          <g transform="translate(220, 520)">
             <g
               style={{
                 transformOrigin: '0px 0px',
                 opacity: hasLeaves ? 1 : 0,
                 transform: hasLeaves ? 'scale(1) rotate(0deg)' : 'scale(0.001) rotate(-35deg)',
-                transition: 'all 1.4s cubic-bezier(0.34, 1.4, 0.64, 1) 0.2s',
+                transition: 'all 1.4s cubic-bezier(0.34, 1.4, 0.64, 1) 0.15s',
               }}
             >
               <path
-                d="M 0 0 C -60 -20, -130 0, -150 50 C -100 70, -40 50, 0 0 Z"
+                d="M 0 0 C -50 -30, -110 -20, -135 30 C -95 50, -40 35, 0 0 Z"
                 fill="url(#bouquetLeafGrad)"
                 stroke="#14532d"
                 strokeWidth="1.5"
@@ -295,17 +327,17 @@ export default function Bouquet({ step = 5 }: { step?: number }) {
           </g>
 
           {/* Right Wing Leaf */}
-          <g transform="translate(360, 580)">
+          <g transform="translate(380, 520)">
             <g
               style={{
                 transformOrigin: '0px 0px',
                 opacity: hasLeaves ? 1 : 0,
                 transform: hasLeaves ? 'scale(1) rotate(0deg)' : 'scale(0.001) rotate(35deg)',
-                transition: 'all 1.4s cubic-bezier(0.34, 1.4, 0.64, 1) 0.25s',
+                transition: 'all 1.4s cubic-bezier(0.34, 1.4, 0.64, 1) 0.2s',
               }}
             >
               <path
-                d="M 0 0 C 60 -20, 130 0, 150 50 C 100 70, 40 50, 0 0 Z"
+                d="M 0 0 C 50 -30, 110 -20, 135 30 C 95 50, 40 35, 0 0 Z"
                 fill="url(#bouquetLeafGrad)"
                 stroke="#14532d"
                 strokeWidth="1.5"
@@ -313,137 +345,127 @@ export default function Bouquet({ step = 5 }: { step?: number }) {
             </g>
           </g>
 
-          {/* Left Upper Foliage */}
-          <g transform="translate(180, 440)">
+          {/* Left Upper sprig */}
+          <g transform="translate(175, 430)">
             <g
               style={{
                 transformOrigin: '0px 0px',
                 opacity: hasLeaves ? 1 : 0,
                 transform: hasLeaves ? 'scale(1) rotate(0deg)' : 'scale(0.001) rotate(-20deg)',
-                transition: 'all 1.4s cubic-bezier(0.34, 1.4, 0.64, 1) 0.3s',
+                transition: 'all 1.4s cubic-bezier(0.34, 1.4, 0.64, 1) 0.25s',
               }}
             >
               <path
-                d="M 0 0 C -45 -30, -90 -15, -110 20 C -70 35, -30 25, 0 0 Z"
+                d="M 0 0 C -40 -35, -85 -20, -100 15 C -65 25, -25 15, 0 0 Z"
                 fill="url(#bouquetLeafGrad)"
               />
             </g>
           </g>
 
-          {/* Right Upper Foliage */}
-          <g transform="translate(420, 440)">
+          {/* Right Upper sprig */}
+          <g transform="translate(425, 430)">
             <g
               style={{
                 transformOrigin: '0px 0px',
                 opacity: hasLeaves ? 1 : 0,
                 transform: hasLeaves ? 'scale(1) rotate(0deg)' : 'scale(0.001) rotate(20deg)',
-                transition: 'all 1.4s cubic-bezier(0.34, 1.4, 0.64, 1) 0.35s',
+                transition: 'all 1.4s cubic-bezier(0.34, 1.4, 0.64, 1) 0.3s',
               }}
             >
               <path
-                d="M 0 0 C 45 -30, 90 -15, 110 20 C 70 35, 30 25, 0 0 Z"
+                d="M 0 0 C 40 -35, 85 -20, 100 15 C 65 25, 25 15, 0 0 Z"
                 fill="url(#bouquetLeafGrad)"
               />
             </g>
           </g>
         </g>
 
-        {/* --- 5 YELLOW BLOOM HEADS (EXUBERANT BOUQUET) --- */}
-        {/* Outer Left Bloom -> (150, 360) */}
-        <g transform="translate(150, 360) rotate(-20)">
+        {/* ========================================================
+            LAYER 4: 5 BLOOMS (Nestled inside bouquet)
+            ======================================================== */}
+        {/* Outer Left Bloom -> (165, 360) */}
+        <g transform="translate(165, 360) rotate(-18)">
           {renderBloomHead(65, 0.1, false)}
         </g>
 
-        {/* Inner Left Bloom -> (220, 270) */}
-        <g transform="translate(220, 270) rotate(-10)">
+        {/* Inner Left Bloom -> (225, 280) */}
+        <g transform="translate(225, 280) rotate(-8)">
           {renderBloomHead(75, 0.2, false)}
         </g>
 
-        {/* Outer Right Bloom -> (450, 360) */}
-        <g transform="translate(450, 360) rotate(20)">
+        {/* Outer Right Bloom -> (435, 360) */}
+        <g transform="translate(435, 360) rotate(18)">
           {renderBloomHead(65, 0.15, false)}
         </g>
 
-        {/* Inner Right Bloom -> (380, 270) */}
-        <g transform="translate(380, 270) rotate(10)">
+        {/* Inner Right Bloom -> (375, 280) */}
+        <g transform="translate(375, 280) rotate(8)">
           {renderBloomHead(75, 0.25, false)}
         </g>
 
-        {/* Center Main Bloom -> (300, 200) */}
-        <g transform="translate(300, 200)">
+        {/* Center Main Bloom -> (300, 210) */}
+        <g transform="translate(300, 210)">
           {renderBloomHead(95, 0.3, true)}
         </g>
 
-        {/* --- FLORAL BOUQUET WRAPPER & GOLDEN SATIN RIBBON --- */}
-        <g transform="translate(300, 600)">
-          <g
-            style={{
-              transformOrigin: '0px 0px',
-              opacity: hasWrap ? 1 : 0,
-              transform: hasWrap ? 'scale(1)' : 'scale(0.001)',
-              transition: 'all 1.4s cubic-bezier(0.34, 1.4, 0.64, 1) 0.1s',
-            }}
-          >
-            {/* Back Paper Layer */}
-            <path
-              d="M -175 -130 L 175 -130 L 75 160 L -75 160 Z"
-              fill="url(#bouquetWrapOuter)"
-              stroke="#ca8a04"
-              strokeWidth="2"
-              filter="drop-shadow(0 8px 16px rgba(0,0,0,0.6))"
-            />
+        {/* ========================================================
+            LAYER 5: FRONT WRAPPER CONE & SATIN RIBBON BOW
+            (Covers lower stems and wraps around the bouquet waist)
+            ======================================================== */}
+        <g
+          style={{
+            transformOrigin: '300px 720px',
+            opacity: hasWrap ? 1 : 0,
+            transform: hasWrap ? 'scale(1)' : 'scale(0.001)',
+            transition: 'all 1.4s cubic-bezier(0.34, 1.4, 0.64, 1) 0.15s',
+          }}
+        >
+          {/* Front Left Wrapper Diagonal Fold */}
+          <path
+            d="M 230 730 L 120 440 Q 280 480 370 455 L 360 730 Z"
+            fill="url(#bouquetWrapOuter)"
+            stroke="#eab308"
+            strokeWidth="1.8"
+            filter="drop-shadow(0 4px 10px rgba(0,0,0,0.5))"
+          />
 
-            {/* Inner Decorative Translucent Fold */}
-            <path
-              d="M -155 -125 L 0 -20 L 155 -125 L 50 155 L -50 155 Z"
-              fill="url(#bouquetWrapInner)"
-              stroke="rgba(250, 204, 21, 0.5)"
-              strokeWidth="1.5"
-            />
+          {/* Front Right Overlapping Wrapper Fold (Origami V-collar) */}
+          <path
+            d="M 370 730 L 480 440 Q 320 475 230 455 L 240 730 Z"
+            fill="#18181b"
+            stroke="#fbbf24"
+            strokeWidth="2"
+            filter="drop-shadow(0 6px 14px rgba(0,0,0,0.6))"
+          />
 
-            {/* Front Left Wrapper Fold */}
-            <path
-              d="M -170 -120 L 60 -10 L -45 158 L -75 158 Z"
-              fill="url(#bouquetWrapOuter)"
-              stroke="#eab308"
-              strokeWidth="1.8"
-            />
+          {/* Metallic Gold Trim Lines */}
+          <path d="M 120 440 Q 280 480 370 455" fill="none" stroke="#fde047" strokeWidth="2.5" />
+          <path d="M 480 440 Q 320 475 230 455" fill="none" stroke="#facc15" strokeWidth="2.5" />
 
-            {/* Front Right Wrapper Fold */}
-            <path
-              d="M 170 -120 L -60 -10 L 45 158 L 75 158 Z"
-              fill="#18181b"
-              stroke="#fbbf24"
-              strokeWidth="2"
-            />
-
-            {/* Gold Ribbon Trim */}
-            <line x1="-165" y1="-115" x2="60" y2="-8" stroke="#facc15" strokeWidth="2.5" />
-            <line x1="165" y1="-115" x2="-60" y2="-8" stroke="#fde047" strokeWidth="2.5" />
-
-            {/* --- SATIN RIBBON BOW & TAILS --- */}
+          {/* --- SATIN RIBBON BOW & FLOWING TAILS (Tied at y: 610) --- */}
+          <g transform="translate(300, 610)">
             {/* Left Ribbon Loop */}
             <path
-              d="M 0 0 C -40 -40, -85 -20, -85 10 C -85 35, -40 25, 0 0 Z"
+              d="M 0 0 C -45 -45, -90 -25, -90 10 C -90 35, -45 25, 0 0 Z"
               fill="url(#ribbonGrad)"
               filter="drop-shadow(0 4px 6px rgba(0,0,0,0.5))"
             />
             {/* Right Ribbon Loop */}
             <path
-              d="M 0 0 C 40 -40, 85 -20, 85 10 C 85 35, 40 25, 0 0 Z"
+              d="M 0 0 C 45 -45, 90 -25, 90 10 C 90 35, 45 25, 0 0 Z"
               fill="url(#ribbonGrad)"
               filter="drop-shadow(0 4px 6px rgba(0,0,0,0.5))"
             />
 
             {/* Left Flowing Ribbon Tail */}
             <path
-              d="M -8 5 C -25 35, -50 75, -65 110 C -50 100, -30 90, 0 12 Z"
+              d="M -8 5 C -28 35, -55 75, -70 115 C -55 105, -35 95, 0 12 Z"
               fill="url(#ribbonGrad)"
               filter="drop-shadow(0 3px 6px rgba(0,0,0,0.4))"
             />
             {/* Right Flowing Ribbon Tail */}
             <path
-              d="M 8 5 C 25 35, 50 75, 65 110 C 50 100, 30 90, 0 12 Z"
+              d="M 8 5 C 28 35, 55 75, 70 115 C 55 105, 35 95, 0 12 Z"
               fill="url(#ribbonGrad)"
               filter="drop-shadow(0 3px 6px rgba(0,0,0,0.4))"
             />
@@ -452,14 +474,14 @@ export default function Bouquet({ step = 5 }: { step?: number }) {
             <ellipse
               cx="0"
               cy="2"
-              rx="15"
-              ry="13"
+              rx="16"
+              ry="14"
               fill="#fbbf24"
               stroke="#d97706"
               strokeWidth="2.5"
               filter="drop-shadow(0 2px 6px rgba(0,0,0,0.6))"
             />
-            <circle cx="-3" cy="-1" r="3" fill="#ffffff" opacity="0.6" />
+            <circle cx="-3" cy="-1" r="3.5" fill="#ffffff" opacity="0.6" />
           </g>
         </g>
       </svg>

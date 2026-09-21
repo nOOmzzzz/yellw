@@ -109,20 +109,57 @@ export default function BouquetWildflowers({ step = 5 }: { step?: number }) {
             <stop offset="100%" stopColor="#09090b" />
           </linearGradient>
 
+          <linearGradient id="wrapInnerWild" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="#fef08a" stopOpacity="0.25" />
+            <stop offset="100%" stopColor="#ca8a04" stopOpacity="0.12" />
+          </linearGradient>
+
           <linearGradient id="wildRibbon" x1="0%" y1="0%" x2="100%" y2="100%">
             <stop offset="0%" stopColor="#fbbf24" />
             <stop offset="50%" stopColor="#f59e0b" />
-            <stop offset="100%" stopColor="#b45309" />
+            <stop offset="85%" stopColor="#d97706" />
+            <stop offset="100%" stopColor="#78350f" />
           </linearGradient>
         </defs>
 
-        {/* --- STEMS (5 STEMS) --- */}
-        <g>
+        {/* ========================================================
+            LAYER 1: BACK WRAPPER COLLAR (Sits BEHIND flowers & stems)
+            ======================================================== */}
+        <g
+          style={{
+            transformOrigin: '300px 720px',
+            opacity: hasWrap ? 1 : 0,
+            transform: hasWrap ? 'scale(1)' : 'scale(0.001)',
+            transition: 'all 1.4s cubic-bezier(0.34, 1.4, 0.64, 1) 0.1s',
+          }}
+        >
+          {/* Back Paper Flared Cone: cradles flowers */}
           <path
-            d="M 300 760 C 270 650, 180 500, 150 360"
+            d="M 230 730 L 75 290 Q 300 175 525 290 L 370 730 Z"
+            fill="url(#wrapPaperWild)"
+            stroke="#ca8a04"
+            strokeWidth="2.5"
+            filter="drop-shadow(0 12px 28px rgba(0,0,0,0.7))"
+          />
+          {/* Inner Golden Silky Lining */}
+          <path
+            d="M 240 710 L 95 305 Q 300 200 505 305 L 360 710 Z"
+            fill="url(#wrapInnerWild)"
+            stroke="rgba(250, 204, 21, 0.45)"
+            strokeWidth="1.5"
+          />
+        </g>
+
+        {/* ========================================================
+            LAYER 2: STEMS (5 STEMS emerging from inside wrapper)
+            ======================================================== */}
+        <g>
+          {/* Far Left Stem -> (150, 360) */}
+          <path
+            d="M 300 710 C 270 610, 180 480, 150 360"
             fill="none"
             stroke="url(#wildStemGrad)"
-            strokeWidth="9"
+            strokeWidth="10"
             strokeLinecap="round"
             style={{
               strokeDasharray: 550,
@@ -130,11 +167,12 @@ export default function BouquetWildflowers({ step = 5 }: { step?: number }) {
               transition: 'stroke-dashoffset 1.8s cubic-bezier(0.2, 0.8, 0.2, 1)',
             }}
           />
+          {/* Inner Left Stem -> (220, 280) */}
           <path
-            d="M 300 760 C 285 630, 230 450, 220 280"
+            d="M 300 710 C 285 590, 230 440, 220 280"
             fill="none"
             stroke="url(#wildStemGrad)"
-            strokeWidth="10"
+            strokeWidth="11"
             strokeLinecap="round"
             style={{
               strokeDasharray: 560,
@@ -142,11 +180,12 @@ export default function BouquetWildflowers({ step = 5 }: { step?: number }) {
               transition: 'stroke-dashoffset 1.8s cubic-bezier(0.2, 0.8, 0.2, 1) 0.1s',
             }}
           />
+          {/* Center Tall Stem -> (300, 210) */}
           <path
-            d="M 300 760 C 298 620, 298 420, 300 210"
+            d="M 300 710 C 298 580, 298 400, 300 210"
             fill="none"
             stroke="url(#wildStemGrad)"
-            strokeWidth="11"
+            strokeWidth="12"
             strokeLinecap="round"
             style={{
               strokeDasharray: 600,
@@ -154,11 +193,12 @@ export default function BouquetWildflowers({ step = 5 }: { step?: number }) {
               transition: 'stroke-dashoffset 2s cubic-bezier(0.2, 0.8, 0.2, 1)',
             }}
           />
+          {/* Inner Right Stem -> (380, 280) */}
           <path
-            d="M 300 760 C 315 630, 370 450, 380 280"
+            d="M 300 710 C 315 590, 370 440, 380 280"
             fill="none"
             stroke="url(#wildStemGrad)"
-            strokeWidth="10"
+            strokeWidth="11"
             strokeLinecap="round"
             style={{
               strokeDasharray: 560,
@@ -166,11 +206,12 @@ export default function BouquetWildflowers({ step = 5 }: { step?: number }) {
               transition: 'stroke-dashoffset 1.8s cubic-bezier(0.2, 0.8, 0.2, 1) 0.1s',
             }}
           />
+          {/* Far Right Stem -> (450, 360) */}
           <path
-            d="M 300 760 C 330 650, 420 500, 450 360"
+            d="M 300 710 C 330 610, 420 480, 450 360"
             fill="none"
             stroke="url(#wildStemGrad)"
-            strokeWidth="9"
+            strokeWidth="10"
             strokeLinecap="round"
             style={{
               strokeDasharray: 550,
@@ -180,9 +221,11 @@ export default function BouquetWildflowers({ step = 5 }: { step?: number }) {
           />
         </g>
 
-        {/* --- LEAVES --- */}
+        {/* ========================================================
+            LAYER 3: LEAVES & GREENERY
+            ======================================================== */}
         <g>
-          <g transform="translate(240, 560)">
+          <g transform="translate(230, 520)">
             <g
               style={{
                 transformOrigin: '0px 0px',
@@ -197,7 +240,7 @@ export default function BouquetWildflowers({ step = 5 }: { step?: number }) {
               />
             </g>
           </g>
-          <g transform="translate(360, 560)">
+          <g transform="translate(370, 520)">
             <g
               style={{
                 transformOrigin: '0px 0px',
@@ -214,63 +257,82 @@ export default function BouquetWildflowers({ step = 5 }: { step?: number }) {
           </g>
         </g>
 
-        {/* --- 5 WILDFLOWER BLOOM HEADS --- */}
+        {/* ========================================================
+            LAYER 4: 5 WILDFLOWER BLOOM HEADS
+            ======================================================== */}
         <g transform="translate(150, 360) rotate(-18)">{renderWildflowerHead(0.75, 0.1)}</g>
         <g transform="translate(220, 280) rotate(-8)">{renderWildflowerHead(0.85, 0.2)}</g>
         <g transform="translate(450, 360) rotate(18)">{renderWildflowerHead(0.75, 0.15)}</g>
         <g transform="translate(380, 280) rotate(8)">{renderWildflowerHead(0.85, 0.25)}</g>
         <g transform="translate(300, 210)">{renderWildflowerHead(1.0, 0.3)}</g>
 
-        {/* --- FLORAL WRAPPER & RIBBON --- */}
-        <g transform="translate(300, 600)">
-          <g
-            style={{
-              transformOrigin: '0px 0px',
-              opacity: hasWrap ? 1 : 0,
-              transform: hasWrap ? 'scale(1)' : 'scale(0.001)',
-              transition: 'all 1.4s cubic-bezier(0.34, 1.4, 0.64, 1) 0.1s',
-            }}
-          >
-            <path
-              d="M -170 -120 L 170 -120 L 70 160 L -70 160 Z"
-              fill="url(#wrapPaperWild)"
-              stroke="#ca8a04"
-              strokeWidth="2"
-              filter="drop-shadow(0 8px 16px rgba(0,0,0,0.6))"
-            />
-            <path
-              d="M -165 -110 L 60 -5 L -45 158 L -70 158 Z"
-              fill="#27272a"
-              stroke="#eab308"
-              strokeWidth="1.8"
-            />
-            <path
-              d="M 165 -110 L -60 -5 L 45 158 L 70 158 Z"
-              fill="#18181b"
-              stroke="#fbbf24"
-              strokeWidth="2"
-            />
+        {/* ========================================================
+            LAYER 5: FRONT WRAPPER CONE & SATIN RIBBON BOW
+            (Covers lower stems and cradles the bouquet waist)
+            ======================================================== */}
+        <g
+          style={{
+            transformOrigin: '300px 720px',
+            opacity: hasWrap ? 1 : 0,
+            transform: hasWrap ? 'scale(1)' : 'scale(0.001)',
+            transition: 'all 1.4s cubic-bezier(0.34, 1.4, 0.64, 1) 0.15s',
+          }}
+        >
+          {/* Front Left Wrapper Diagonal Fold */}
+          <path
+            d="M 230 730 L 120 440 Q 280 480 370 455 L 360 730 Z"
+            fill="url(#wrapPaperWild)"
+            stroke="#eab308"
+            strokeWidth="1.8"
+            filter="drop-shadow(0 4px 10px rgba(0,0,0,0.5))"
+          />
 
-            {/* Ribbon Bow */}
+          {/* Front Right Overlapping Wrapper Fold (Origami V-collar) */}
+          <path
+            d="M 370 730 L 480 440 Q 320 475 230 455 L 240 730 Z"
+            fill="#18181b"
+            stroke="#fbbf24"
+            strokeWidth="2"
+            filter="drop-shadow(0 6px 14px rgba(0,0,0,0.6))"
+          />
+
+          {/* Metallic Gold Trim Lines */}
+          <path d="M 120 440 Q 280 480 370 455" fill="none" stroke="#fde047" strokeWidth="2.5" />
+          <path d="M 480 440 Q 320 475 230 455" fill="none" stroke="#facc15" strokeWidth="2.5" />
+
+          {/* Ribbon Bow & Tails at y:610 */}
+          <g transform="translate(300, 610)">
             <path
-              d="M 0 0 C -40 -40, -85 -20, -85 10 C -85 35, -40 25, 0 0 Z"
+              d="M 0 0 C -45 -45, -90 -25, -90 10 C -90 35, -45 25, 0 0 Z"
               fill="url(#wildRibbon)"
               filter="drop-shadow(0 4px 6px rgba(0,0,0,0.5))"
             />
             <path
-              d="M 0 0 C 40 -40, 85 -20, 85 10 C 85 35, 40 25, 0 0 Z"
+              d="M 0 0 C 45 -45, 90 -25, 90 10 C 90 35, 45 25, 0 0 Z"
               fill="url(#wildRibbon)"
               filter="drop-shadow(0 4px 6px rgba(0,0,0,0.5))"
             />
             <path
-              d="M -8 5 C -25 35, -50 75, -65 110 C -50 100, -30 90, 0 12 Z"
+              d="M -8 5 C -28 35, -55 75, -70 115 C -55 105, -35 95, 0 12 Z"
               fill="url(#wildRibbon)"
+              filter="drop-shadow(0 3px 6px rgba(0,0,0,0.4))"
             />
             <path
-              d="M 8 5 C 25 35, 50 75, 65 110 C 50 100, 30 90, 0 12 Z"
+              d="M 8 5 C 28 35, 55 75, 70 115 C 55 105, 35 95, 0 12 Z"
               fill="url(#wildRibbon)"
+              filter="drop-shadow(0 3px 6px rgba(0,0,0,0.4))"
             />
-            <ellipse cx="0" cy="2" rx="15" ry="13" fill="#fbbf24" stroke="#d97706" strokeWidth="2.5" />
+            <ellipse
+              cx="0"
+              cy="2"
+              rx="16"
+              ry="14"
+              fill="#fbbf24"
+              stroke="#d97706"
+              strokeWidth="2.5"
+              filter="drop-shadow(0 2px 6px rgba(0,0,0,0.6))"
+            />
+            <circle cx="-3" cy="-1" r="3.5" fill="#ffffff" opacity="0.6" />
           </g>
         </g>
       </svg>
