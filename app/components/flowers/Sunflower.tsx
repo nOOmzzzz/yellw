@@ -216,13 +216,12 @@ export default function Sunflower({ step = 4 }: { step?: number }) {
               {outerPetals.map((angle, idx) => (
                 <g
                   key={`outer-${idx}`}
-                  transform={`rotate(${angle})`}
                   style={{
                     transformOrigin: '0px 0px',
                     opacity: hasBloom ? 1 : 0,
                     transform: hasBloom
-                      ? `scale(1)`
-                      : `scale(0.01)`,
+                      ? `rotate(${angle}deg) scale(1)`
+                      : `rotate(${angle}deg) scale(0.01)`,
                     transition: `all 1.2s cubic-bezier(0.2, 0.9, 0.3, 1.2) ${0.15 + idx * 0.02}s`,
                   }}
                 >
@@ -240,13 +239,12 @@ export default function Sunflower({ step = 4 }: { step?: number }) {
               {innerPetals.map((angle, idx) => (
                 <g
                   key={`inner-${idx}`}
-                  transform={`rotate(${angle})`}
                   style={{
                     transformOrigin: '0px 0px',
                     opacity: hasBloom ? 1 : 0,
                     transform: hasBloom
-                      ? `scale(1)`
-                      : `scale(0.01)`,
+                      ? `rotate(${angle}deg) scale(1)`
+                      : `rotate(${angle}deg) scale(0.01)`,
                     transition: `all 1.1s cubic-bezier(0.2, 0.9, 0.3, 1.2) ${0.25 + idx * 0.02}s`,
                   }}
                 >

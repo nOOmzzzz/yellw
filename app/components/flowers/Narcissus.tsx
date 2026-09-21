@@ -143,13 +143,12 @@ export default function Narcissus({ step = 4 }: { step?: number }) {
             {petals.map((angle, idx) => (
               <g
                 key={`narc-petal-${idx}`}
-                transform={`rotate(${angle})`}
                 style={{
                   transformOrigin: '0px 0px',
                   opacity: hasBloom ? 1 : 0,
                   transform: hasBloom
-                    ? `scale(1)`
-                    : `scale(0.01)`,
+                    ? `rotate(${angle}deg) scale(1)`
+                    : `rotate(${angle}deg) scale(0.01)`,
                   transition: `all 1.2s cubic-bezier(0.2, 0.9, 0.3, 1.2) ${0.15 + idx * 0.03}s`,
                 }}
               >

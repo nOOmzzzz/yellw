@@ -50,11 +50,12 @@ export default function Bouquet({ step = 4 }: { step?: number }) {
           {angles.map((angle, idx) => (
             <g
               key={`bouquet-petal-${idx}`}
-              transform={`rotate(${angle})`}
               style={{
                 transformOrigin: '0px 0px',
                 opacity: hasBloom ? 1 : 0,
-                transform: hasBloom ? `scale(1)` : `scale(0.01)`,
+                transform: hasBloom
+                  ? `rotate(${angle}deg) scale(1)`
+                  : `rotate(${angle}deg) scale(0.01)`,
                 transition: `all 1.2s cubic-bezier(0.2, 0.9, 0.3, 1.2) ${delaySec + 0.12 + idx * 0.02}s`,
               }}
             >
@@ -78,13 +79,12 @@ export default function Bouquet({ step = 4 }: { step?: number }) {
           {angles.map((angle, idx) => (
             <g
               key={`bouquet-inner-petal-${idx}`}
-              transform={`rotate(${angle + 180 / petalCount})`}
               style={{
                 transformOrigin: '0px 0px',
                 opacity: hasBloom ? 0.9 : 0,
                 transform: hasBloom
-                  ? `scale(0.78)`
-                  : `scale(0.01)`,
+                  ? `rotate(${angle + 180 / petalCount}deg) scale(0.78)`
+                  : `rotate(${angle + 180 / petalCount}deg) scale(0.01)`,
                 transition: `all 1.2s cubic-bezier(0.2, 0.9, 0.3, 1.2) ${delaySec + 0.25 + idx * 0.02}s`,
               }}
             >
