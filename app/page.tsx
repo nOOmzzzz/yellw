@@ -17,10 +17,13 @@ import FallingPetals from './components/FallingPetals';
 import MusicBoxPlayer from './components/MusicBoxPlayer';
 import DedicationCard from './components/DedicationCard';
 import GoldenSeed from './components/GoldenSeed';
+import StardustTrail from './components/StardustTrail';
+import GoldenButterflies from './components/GoldenButterflies';
 import Bouquet from './components/flowers/Bouquet';
 import BouquetTulips from './components/flowers/BouquetTulips';
 import BouquetSunflowers from './components/flowers/BouquetSunflowers';
 import BouquetWildflowers from './components/flowers/BouquetWildflowers';
+import { useParallax } from './hooks/useParallax';
 import { FLOWER_OPTIONS, BUILD_STEPS, FlowerType } from './components/types';
 
 export default function Home() {
@@ -34,6 +37,9 @@ export default function Home() {
   const [showFallingPetals, setShowFallingPetals] = useState(true);
   const [showFireflies, setShowFireflies] = useState(true);
   const [immersiveMode, setImmersiveMode] = useState(false);
+
+  // 3D Parallax Perspective
+  const { bouquetTiltStyle, backgroundParallaxStyle } = useParallax(4.5);
 
   const currentMeta = FLOWER_OPTIONS.find((f) => f.id === selectedFlower)!;
   const currentStepInfo = BUILD_STEPS[step] || BUILD_STEPS[0];
@@ -83,10 +89,14 @@ export default function Home() {
 
   return (
     <main className="relative min-h-screen w-full overflow-hidden bg-[#060810] flex flex-col justify-between select-none">
-      {/* Background Starfield and Ambient Glow */}
+      {/* Interactive Golden Stardust Trail */}
+      <StardustTrail />
+
+      {/* Background Starfield and Ambient Glow with Depth Parallax */}
       <BackgroundEffects
         glowColor={currentMeta.glowColor}
         showFireflies={showFireflies}
+        parallaxStyle={backgroundParallaxStyle}
       />
 
       {/* Falling Petals Particle Effect (active on step 4 & 5) */}
@@ -170,6 +180,9 @@ export default function Home() {
             }`}
             title={step < 5 ? 'Haz click para continuar armando tu ramo' : 'Ramo completo'}
           >
+            {/* Ethereal Golden Butterflies hovering around the flowers */}
+            <GoldenButterflies active={step >= 4} />
+
             {/* Step Helper Badge on top */}
             {step < 5 ? (
               <div className="absolute top-2 left-1/2 -translate-x-1/2 z-30 px-3.5 py-1.5 rounded-full bg-[#0c101a]/90 border border-amber-400/25 text-xs text-amber-200/90 font-medium backdrop-blur-md shadow-lg flex items-center gap-2">
@@ -185,8 +198,9 @@ export default function Home() {
               </div>
             )}
 
-            {/* Individual Keyed Flower Component with soft cross-dissolve & entrance animation */}
+            {/* Individual Keyed Flower Component with 3D Parallax Tilt & soft cross-dissolve */}
             <div
+              style={bouquetTiltStyle}
               key={`${selectedFlower}-${renderKey}`}
               className={`w-full h-full flex items-end justify-center transition-all duration-300 ${
                 isTransitioningFlower
@@ -199,6 +213,21 @@ export default function Home() {
               {selectedFlower === 'sunflower' && <BouquetSunflowers step={step} />}
               {selectedFlower === 'wildflower' && <BouquetWildflowers step={step} />}
             </div>
+
+            {/* Floating Gift Invitation Button on full bloom */}
+            {step === 5 && (
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setShowDedication(true);
+                }}
+                className="absolute bottom-4 sm:bottom-6 z-30 flex items-center gap-2.5 px-5 py-2.5 rounded-full bg-[#0c101a]/95 hover:bg-[#151c2c] border border-amber-400/40 text-amber-200 hover:text-white hover:border-amber-400/70 transition-all duration-300 backdrop-blur-xl shadow-[0_0_30px_rgba(250,204,21,0.25)] hover:scale-105 active:scale-95 text-xs sm:text-sm font-medium animate-fadeIn"
+              >
+                <Mail className="w-4 h-4 text-amber-300 animate-pulse" />
+                <span>Abrir dedicatoria de primavera</span>
+                <span className="text-[11px] text-amber-300/70 font-serif italic">→</span>
+              </button>
+            )}
           </div>
         )}
       </div>

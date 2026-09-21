@@ -56,15 +56,32 @@ export default function MusicBoxPlayer() {
     gain.gain.linearRampToValueAtTime(0.18, now + 0.04);
     gain.gain.exponentialRampToValueAtTime(0.001, now + 1.8);
 
+    // Acoustic reverb and shimmer delay network
+    const delay = ctx.createDelay();
+    delay.delayTime.setValueAtTime(0.26, now);
+    const feedback = ctx.createGain();
+    feedback.gain.setValueAtTime(0.24, now);
+    const wetGain = ctx.createGain();
+    wetGain.gain.setValueAtTime(0.18, now);
+
+    delay.connect(feedback);
+    feedback.connect(delay);
+    delay.connect(wetGain);
+    wetGain.connect(ctx.destination);
+
+    // Dry connections
     osc.connect(gain);
     osc2.connect(gain2);
     gain.connect(ctx.destination);
     gain2.connect(ctx.destination);
 
+    // Wet connections for warm resonance
+    gain.connect(delay);
+
     osc.start(now);
     osc2.start(now);
-    osc.stop(now + 2.0);
-    osc2.stop(now + 2.0);
+    osc.stop(now + 2.4);
+    osc2.stop(now + 2.4);
   };
 
   const togglePlay = () => {

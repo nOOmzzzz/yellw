@@ -35,7 +35,7 @@ export default function DedicationCard({
   if (!isOpen) return null;
 
   const handleCopy = () => {
-    const fullText = `${recipient}\n\n"${message}"\n\n— Feliz 21 de Septiembre`;
+    const fullText = `${recipient}\n\n"${message}"\n\n- Feliz 21 de Septiembre`;
     navigator.clipboard.writeText(fullText).then(() => {
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);

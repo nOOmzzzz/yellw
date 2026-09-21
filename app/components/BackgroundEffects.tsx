@@ -26,9 +26,11 @@ interface Firefly {
 export default function BackgroundEffects({
   glowColor = 'rgba(251, 191, 36, 0.35)',
   showFireflies = true,
+  parallaxStyle,
 }: {
   glowColor?: string;
   showFireflies?: boolean;
+  parallaxStyle?: React.CSSProperties;
 }) {
   // Generate deterministic stars
   const stars = useMemo<Star[]>(() => {
@@ -82,6 +84,7 @@ export default function BackgroundEffects({
     <div
       suppressHydrationWarning
       className="pointer-events-none absolute inset-0 overflow-hidden select-none"
+      style={parallaxStyle}
     >
       {/* Deep atmospheric ambient gradients */}
       <div
@@ -94,7 +97,7 @@ export default function BackgroundEffects({
       {stars.map((s) => (
         <span
           key={s.id}
-          className="absolute rounded-full bg-white transition-opacity"
+          className="absolute rounded-full bg-[#fffdf5] transition-opacity"
           style={{
             top: s.top,
             left: s.left,
@@ -102,7 +105,7 @@ export default function BackgroundEffects({
             height: `${s.size}px`,
             opacity: s.opacity,
             animation: `twinkle ${s.duration}s ease-in-out ${s.delay}s infinite alternate`,
-            boxShadow: s.size > 2 ? '0 0 6px 1px rgba(255, 255, 255, 0.7)' : 'none',
+            boxShadow: s.size > 2 ? '0 0 6px 1px rgba(254, 240, 138, 0.7)' : 'none',
           }}
         />
       ))}
