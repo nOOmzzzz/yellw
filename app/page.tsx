@@ -135,7 +135,7 @@ export default function Home() {
           /* Step 1 to 5: The Interactive Bouquet Being Built */
           <div
             onClick={step < 5 ? handleNextStep : undefined}
-            className={`w-full h-[65vh] sm:h-[72vh] flex items-end justify-center relative ${
+            className={`w-full h-[65vh] sm:h-[72vh] flex items-end justify-center relative animate-fadeIn ${
               step < 5 ? 'cursor-pointer group' : ''
             }`}
             title={step < 5 ? 'Haz click para continuar armando tu ramo' : '¡Ramo completo!'}
