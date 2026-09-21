@@ -2,14 +2,18 @@
 
 import React from 'react';
 
-export default function Daisy({ isBlooming }: { isBlooming: boolean }) {
-  // 28 fine radiating petals
+export default function Daisy({ step = 4 }: { step?: number }) {
+  const hasStem = step >= 1;
+  const hasLeaves = step >= 2;
+  const hasBud = step >= 3;
+  const hasBloom = step >= 4;
+
   const petals = Array.from({ length: 28 }, (_, i) => (i * 360) / 28);
 
   return (
     <div
       className={`relative w-full h-full flex items-center justify-center transition-transform duration-700 ${
-        isBlooming ? 'animate-sway' : ''
+        hasBloom ? 'animate-sway' : ''
       }`}
     >
       <svg
@@ -18,21 +22,18 @@ export default function Daisy({ isBlooming }: { isBlooming: boolean }) {
         className="w-full h-full max-h-[82vh] overflow-visible drop-shadow-2xl"
       >
         <defs>
-          {/* Stem Gradient */}
           <linearGradient id="daisyStemGrad" x1="0%" y1="0%" x2="100%" y2="0%">
             <stop offset="0%" stopColor="#15803d" />
             <stop offset="50%" stopColor="#22c55e" />
             <stop offset="100%" stopColor="#166534" />
           </linearGradient>
 
-          {/* Leaf Gradient */}
           <linearGradient id="daisyLeafGrad" x1="0%" y1="100%" x2="100%" y2="0%">
             <stop offset="0%" stopColor="#166534" />
             <stop offset="70%" stopColor="#22c55e" />
             <stop offset="100%" stopColor="#86efac" />
           </linearGradient>
 
-          {/* Daisy Petal Gradient */}
           <linearGradient id="daisyPetalGrad" x1="50%" y1="100%" x2="50%" y2="0%">
             <stop offset="0%" stopColor="#eab308" />
             <stop offset="30%" stopColor="#facc15" />
@@ -40,7 +41,6 @@ export default function Daisy({ isBlooming }: { isBlooming: boolean }) {
             <stop offset="100%" stopColor="#ffffff" />
           </linearGradient>
 
-          {/* Center Button Radial Gradient */}
           <radialGradient id="daisyCenterGrad" cx="45%" cy="40%" r="55%">
             <stop offset="0%" stopColor="#fef08a" />
             <stop offset="30%" stopColor="#facc15" />
@@ -49,7 +49,6 @@ export default function Daisy({ isBlooming }: { isBlooming: boolean }) {
             <stop offset="100%" stopColor="#854d0e" />
           </radialGradient>
 
-          {/* Daisy Petal Path */}
           <path
             id="daisyPetalPath"
             d="M 0 0 C -9 -30, -11 -80, 0 -118 C 11 -80, 9 -30, 0 0 Z"
@@ -66,21 +65,21 @@ export default function Daisy({ isBlooming }: { isBlooming: boolean }) {
             strokeLinecap="round"
             style={{
               strokeDasharray: 520,
-              strokeDashoffset: isBlooming ? 0 : 520,
-              transition: 'stroke-dashoffset 2.2s cubic-bezier(0.2, 0.8, 0.2, 1)',
+              strokeDashoffset: hasStem ? 0 : 520,
+              transition: 'stroke-dashoffset 2s cubic-bezier(0.2, 0.8, 0.2, 1)',
             }}
           />
         </g>
 
-        {/* --- LEAVES (SERRATED / LOBED) --- */}
+        {/* --- LEAVES --- */}
         {/* Left Leaf */}
         <g
           transform="translate(247, 500)"
           style={{
             transformOrigin: '0 0',
-            opacity: isBlooming ? 1 : 0,
-            transform: isBlooming ? 'scale(1) rotate(0deg)' : 'scale(0) rotate(-30deg)',
-            transition: 'all 1.6s cubic-bezier(0.34, 1.4, 0.64, 1) 0.9s',
+            opacity: hasLeaves ? 1 : 0,
+            transform: hasLeaves ? 'scale(1) rotate(0deg)' : 'scale(0.01) rotate(-30deg)',
+            transition: 'all 1.4s cubic-bezier(0.34, 1.4, 0.64, 1) 0.2s',
           }}
         >
           <path
@@ -103,9 +102,9 @@ export default function Daisy({ isBlooming }: { isBlooming: boolean }) {
           transform="translate(253, 420)"
           style={{
             transformOrigin: '0 0',
-            opacity: isBlooming ? 1 : 0,
-            transform: isBlooming ? 'scale(1) rotate(0deg)' : 'scale(0) rotate(30deg)',
-            transition: 'all 1.6s cubic-bezier(0.34, 1.4, 0.64, 1) 1.2s',
+            opacity: hasLeaves ? 1 : 0,
+            transform: hasLeaves ? 'scale(1) rotate(0deg)' : 'scale(0.01) rotate(30deg)',
+            transition: 'all 1.4s cubic-bezier(0.34, 1.4, 0.64, 1) 0.3s',
           }}
         >
           <path
@@ -128,19 +127,21 @@ export default function Daisy({ isBlooming }: { isBlooming: boolean }) {
           transform="translate(250, 280)"
           style={{
             transformOrigin: '250px 280px',
-            opacity: isBlooming ? 1 : 0,
-            transform: isBlooming ? 'scale(1)' : 'scale(0.15)',
-            transition: 'all 1.8s cubic-bezier(0.175, 0.885, 0.32, 1.25) 1.3s',
+            opacity: hasBud ? 1 : 0,
+            transform: hasBloom ? 'scale(1)' : hasBud ? 'scale(0.55)' : 'scale(0.01)',
+            transition: 'all 1.5s cubic-bezier(0.175, 0.885, 0.32, 1.25) 0.3s',
           }}
         >
           {/* Ambient Glow */}
-          <circle
-            cx="0"
-            cy="0"
-            r="135"
-            fill="rgba(250, 204, 21, 0.25)"
-            filter="blur(25px)"
-          />
+          {hasBloom && (
+            <circle
+              cx="0"
+              cy="0"
+              r="135"
+              fill="rgba(250, 204, 21, 0.25)"
+              filter="blur(25px)"
+            />
+          )}
 
           {/* 28 Slender Radiant Petals */}
           {petals.map((angle, idx) => (
@@ -149,11 +150,11 @@ export default function Daisy({ isBlooming }: { isBlooming: boolean }) {
               transform={`rotate(${angle})`}
               style={{
                 transformOrigin: '0 0',
-                opacity: isBlooming ? 1 : 0,
-                transform: isBlooming
+                opacity: hasBloom ? 1 : 0,
+                transform: hasBloom
                   ? `rotate(${angle}deg) scale(1)`
-                  : `rotate(${angle}deg) scale(0.1)`,
-                transition: `all 1.2s cubic-bezier(0.2, 0.9, 0.3, 1.2) ${1.5 + idx * 0.025}s`,
+                  : `rotate(${angle}deg) scale(0.05)`,
+                transition: `all 1.1s cubic-bezier(0.2, 0.9, 0.3, 1.2) ${0.2 + idx * 0.02}s`,
               }}
             >
               <use
@@ -181,6 +182,7 @@ export default function Daisy({ isBlooming }: { isBlooming: boolean }) {
             stroke="#a16207"
             strokeWidth="2.5"
             filter="drop-shadow(0 2px 8px rgba(161, 98, 7, 0.4))"
+            className={hasBud && !hasBloom ? 'animate-pulse' : ''}
           />
 
           {/* Micro Stipples on center button */}

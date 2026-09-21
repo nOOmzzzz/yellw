@@ -2,8 +2,12 @@
 
 import React from 'react';
 
-export default function Bouquet({ isBlooming }: { isBlooming: boolean }) {
-  // Reusable helper for flower head with yellow petals and golden center
+export default function Bouquet({ step = 4 }: { step?: number }) {
+  const hasStem = step >= 1;
+  const hasLeaves = step >= 2;
+  const hasBud = step >= 3;
+  const hasBloom = step >= 4;
+
   const renderBloomHead = (
     size: number,
     delaySec: number,
@@ -16,29 +20,31 @@ export default function Bouquet({ isBlooming }: { isBlooming: boolean }) {
       <g
         style={{
           transformOrigin: '0 0',
-          opacity: isBlooming ? 1 : 0,
-          transform: isBlooming ? 'scale(1)' : 'scale(0.1)',
-          transition: `all 1.7s cubic-bezier(0.175, 0.885, 0.32, 1.25) ${delaySec}s`,
+          opacity: hasBud ? 1 : 0,
+          transform: hasBloom ? 'scale(1)' : hasBud ? 'scale(0.5)' : 'scale(0.01)',
+          transition: `all 1.4s cubic-bezier(0.175, 0.885, 0.32, 1.25) ${delaySec}s`,
         }}
       >
         {/* Ambient Glow */}
-        <circle
-          cx="0"
-          cy="0"
-          r={size * 1.6}
-          fill="rgba(250, 204, 21, 0.35)"
-          filter="blur(16px)"
-        />
+        {hasBloom && (
+          <circle
+            cx="0"
+            cy="0"
+            r={size * 1.6}
+            fill="rgba(250, 204, 21, 0.35)"
+            filter="blur(16px)"
+          />
+        )}
 
-        {/* Petals */}
+        {/* Petals (unfurl only on step 4) */}
         {angles.map((angle, idx) => (
           <g
             key={`bouquet-petal-${idx}`}
             transform={`rotate(${angle})`}
             style={{
               transformOrigin: '0 0',
-              opacity: isBlooming ? 1 : 0,
-              transform: isBlooming ? `rotate(${angle}deg) scale(1)` : `rotate(${angle}deg) scale(0.1)`,
+              opacity: hasBloom ? 1 : 0,
+              transform: hasBloom ? `rotate(${angle}deg) scale(1)` : `rotate(${angle}deg) scale(0.05)`,
               transition: `all 1.2s cubic-bezier(0.2, 0.9, 0.3, 1.2) ${delaySec + 0.15 + idx * 0.02}s`,
             }}
           >
@@ -65,10 +71,10 @@ export default function Bouquet({ isBlooming }: { isBlooming: boolean }) {
             transform={`rotate(${angle + 180 / petalCount})`}
             style={{
               transformOrigin: '0 0',
-              opacity: isBlooming ? 0.9 : 0,
-              transform: isBlooming
+              opacity: hasBloom ? 0.9 : 0,
+              transform: hasBloom
                 ? `rotate(${angle + 180 / petalCount}deg) scale(0.78)`
-                : `rotate(${angle + 180 / petalCount}deg) scale(0.1)`,
+                : `rotate(${angle + 180 / petalCount}deg) scale(0.05)`,
               transition: `all 1.2s cubic-bezier(0.2, 0.9, 0.3, 1.2) ${delaySec + 0.35 + idx * 0.02}s`,
             }}
           >
@@ -88,6 +94,7 @@ export default function Bouquet({ isBlooming }: { isBlooming: boolean }) {
           stroke="#b45309"
           strokeWidth="2.5"
           filter="drop-shadow(0 2px 8px rgba(245, 158, 11, 0.6))"
+          className={hasBud && !hasBloom ? 'animate-pulse' : ''}
         />
 
         {/* Center Seed Dots */}
@@ -120,7 +127,7 @@ export default function Bouquet({ isBlooming }: { isBlooming: boolean }) {
   return (
     <div
       className={`relative w-full h-full flex items-center justify-center transition-transform duration-700 ${
-        isBlooming ? 'animate-sway' : ''
+        hasBloom ? 'animate-sway' : ''
       }`}
     >
       <svg
@@ -132,7 +139,7 @@ export default function Bouquet({ isBlooming }: { isBlooming: boolean }) {
           {/* Stem Gradient */}
           <linearGradient id="bouquetStemGrad" x1="0%" y1="0%" x2="100%" y2="0%">
             <stop offset="0%" stopColor="#14532d" />
-            <stop offset="50%" stopColor="#16a34a" />
+            <stop offset="50%" stopColor="#22c55e" />
             <stop offset="100%" stopColor="#15803d" />
           </linearGradient>
 
@@ -185,8 +192,8 @@ export default function Bouquet({ isBlooming }: { isBlooming: boolean }) {
           strokeLinecap="round"
           style={{
             strokeDasharray: 550,
-            strokeDashoffset: isBlooming ? 0 : 550,
-            transition: 'stroke-dashoffset 2.2s cubic-bezier(0.2, 0.8, 0.2, 1) 0.2s',
+            strokeDashoffset: hasStem ? 0 : 550,
+            transition: 'stroke-dashoffset 1.8s cubic-bezier(0.2, 0.8, 0.2, 1)',
           }}
         />
 
@@ -199,8 +206,8 @@ export default function Bouquet({ isBlooming }: { isBlooming: boolean }) {
           strokeLinecap="round"
           style={{
             strokeDasharray: 550,
-            strokeDashoffset: isBlooming ? 0 : 550,
-            transition: 'stroke-dashoffset 2.2s cubic-bezier(0.2, 0.8, 0.2, 1) 0.3s',
+            strokeDashoffset: hasStem ? 0 : 550,
+            transition: 'stroke-dashoffset 1.8s cubic-bezier(0.2, 0.8, 0.2, 1) 0.1s',
           }}
         />
 
@@ -213,8 +220,8 @@ export default function Bouquet({ isBlooming }: { isBlooming: boolean }) {
           strokeLinecap="round"
           style={{
             strokeDasharray: 600,
-            strokeDashoffset: isBlooming ? 0 : 600,
-            transition: 'stroke-dashoffset 2.4s cubic-bezier(0.2, 0.8, 0.2, 1)',
+            strokeDashoffset: hasStem ? 0 : 600,
+            transition: 'stroke-dashoffset 2s cubic-bezier(0.2, 0.8, 0.2, 1)',
           }}
         />
 
@@ -224,9 +231,9 @@ export default function Bouquet({ isBlooming }: { isBlooming: boolean }) {
           transform="translate(260, 560)"
           style={{
             transformOrigin: '0 0',
-            opacity: isBlooming ? 1 : 0,
-            transform: isBlooming ? 'scale(1) rotate(0deg)' : 'scale(0) rotate(-30deg)',
-            transition: 'all 1.6s cubic-bezier(0.34, 1.4, 0.64, 1) 0.9s',
+            opacity: hasLeaves ? 1 : 0,
+            transform: hasLeaves ? 'scale(1) rotate(0deg)' : 'scale(0) rotate(-30deg)',
+            transition: 'all 1.4s cubic-bezier(0.34, 1.4, 0.64, 1) 0.2s',
           }}
         >
           <path
@@ -242,9 +249,9 @@ export default function Bouquet({ isBlooming }: { isBlooming: boolean }) {
           transform="translate(340, 560)"
           style={{
             transformOrigin: '0 0',
-            opacity: isBlooming ? 1 : 0,
-            transform: isBlooming ? 'scale(1) rotate(0deg)' : 'scale(0) rotate(30deg)',
-            transition: 'all 1.6s cubic-bezier(0.34, 1.4, 0.64, 1) 1.0s',
+            opacity: hasLeaves ? 1 : 0,
+            transform: hasLeaves ? 'scale(1) rotate(0deg)' : 'scale(0) rotate(30deg)',
+            transition: 'all 1.4s cubic-bezier(0.34, 1.4, 0.64, 1) 0.3s',
           }}
         >
           <path
@@ -260,9 +267,9 @@ export default function Bouquet({ isBlooming }: { isBlooming: boolean }) {
           transform="translate(190, 440)"
           style={{
             transformOrigin: '0 0',
-            opacity: isBlooming ? 1 : 0,
-            transform: isBlooming ? 'scale(1) rotate(0deg)' : 'scale(0) rotate(-20deg)',
-            transition: 'all 1.6s cubic-bezier(0.34, 1.4, 0.64, 1) 1.2s',
+            opacity: hasLeaves ? 1 : 0,
+            transform: hasLeaves ? 'scale(1) rotate(0deg)' : 'scale(0) rotate(-20deg)',
+            transition: 'all 1.4s cubic-bezier(0.34, 1.4, 0.64, 1) 0.4s',
           }}
         >
           <path
@@ -278,9 +285,9 @@ export default function Bouquet({ isBlooming }: { isBlooming: boolean }) {
           transform="translate(410, 440)"
           style={{
             transformOrigin: '0 0',
-            opacity: isBlooming ? 1 : 0,
-            transform: isBlooming ? 'scale(1) rotate(0deg)' : 'scale(0) rotate(20deg)',
-            transition: 'all 1.6s cubic-bezier(0.34, 1.4, 0.64, 1) 1.3s',
+            opacity: hasLeaves ? 1 : 0,
+            transform: hasLeaves ? 'scale(1) rotate(0deg)' : 'scale(0) rotate(20deg)',
+            transition: 'all 1.4s cubic-bezier(0.34, 1.4, 0.64, 1) 0.5s',
           }}
         >
           <path
@@ -296,9 +303,9 @@ export default function Bouquet({ isBlooming }: { isBlooming: boolean }) {
           transform="translate(298, 410)"
           style={{
             transformOrigin: '0 0',
-            opacity: isBlooming ? 1 : 0,
-            transform: isBlooming ? 'scale(1)' : 'scale(0)',
-            transition: 'all 1.5s ease 1.1s',
+            opacity: hasLeaves ? 1 : 0,
+            transform: hasLeaves ? 'scale(1)' : 'scale(0)',
+            transition: 'all 1.3s ease 0.3s',
           }}
         >
           <path
@@ -312,19 +319,19 @@ export default function Bouquet({ isBlooming }: { isBlooming: boolean }) {
         </g>
 
         {/* --- 3 YELLOW BLOOM HEADS --- */}
-        {/* Left Bloom Head (at x: 160, y: 360, angled -18deg) */}
+        {/* Left Bloom Head */}
         <g transform="translate(160, 360) rotate(-18)">
-          {renderBloomHead(70, 1.3, false)}
+          {renderBloomHead(70, 0.1, false)}
         </g>
 
-        {/* Right Bloom Head (at x: 440, y: 360, angled 18deg) */}
+        {/* Right Bloom Head */}
         <g transform="translate(440, 360) rotate(18)">
-          {renderBloomHead(70, 1.4, false)}
+          {renderBloomHead(70, 0.2, false)}
         </g>
 
-        {/* Center Main Bloom Head (at x: 300, y: 230, prominent) */}
+        {/* Center Main Bloom Head */}
         <g transform="translate(300, 230)">
-          {renderBloomHead(95, 1.5, true)}
+          {renderBloomHead(95, 0.3, true)}
         </g>
 
         {/* --- GOLDEN RIBBON BOW TIED AT BASE --- */}
@@ -332,34 +339,29 @@ export default function Bouquet({ isBlooming }: { isBlooming: boolean }) {
           transform="translate(300, 660)"
           style={{
             transformOrigin: '300px 660px',
-            opacity: isBlooming ? 1 : 0,
-            transform: isBlooming ? 'scale(1)' : 'scale(0.3)',
-            transition: 'all 1.2s cubic-bezier(0.34, 1.56, 0.64, 1) 0.6s',
+            opacity: hasStem ? 1 : 0,
+            transform: hasStem ? 'scale(1)' : 'scale(0.1)',
+            transition: 'all 1.2s cubic-bezier(0.34, 1.56, 0.64, 1) 0.5s',
           }}
         >
-          {/* Left Ribbon Loop */}
           <path
             d="M 0 0 C -30 -35, -70 -20, -70 5 C -70 25, -30 20, 0 0 Z"
             fill="url(#ribbonGrad)"
             filter="drop-shadow(0 2px 4px rgba(0,0,0,0.4))"
           />
-          {/* Right Ribbon Loop */}
           <path
             d="M 0 0 C 30 -35, 70 -20, 70 5 C 70 25, 30 20, 0 0 Z"
             fill="url(#ribbonGrad)"
             filter="drop-shadow(0 2px 4px rgba(0,0,0,0.4))"
           />
-          {/* Left Hanging Tail */}
           <path
             d="M -5 5 C -20 30, -35 55, -45 80 C -35 75, -20 65, 0 10 Z"
             fill="url(#ribbonGrad)"
           />
-          {/* Right Hanging Tail */}
           <path
             d="M 5 5 C 20 30, 35 55, 45 80 C 35 75, 20 65, 0 10 Z"
             fill="url(#ribbonGrad)"
           />
-          {/* Center Knot */}
           <ellipse
             cx="0"
             cy="0"

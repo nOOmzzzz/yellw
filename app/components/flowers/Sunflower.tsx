@@ -2,15 +2,19 @@
 
 import React from 'react';
 
-export default function Sunflower({ isBlooming }: { isBlooming: boolean }) {
-  // 24 outer petals, 18 inner petals
+export default function Sunflower({ step = 4 }: { step?: number }) {
+  const hasStem = step >= 1;
+  const hasLeaves = step >= 2;
+  const hasBud = step >= 3;
+  const hasBloom = step >= 4;
+
   const outerPetals = Array.from({ length: 24 }, (_, i) => i * 15);
   const innerPetals = Array.from({ length: 18 }, (_, i) => i * 20 + 10);
 
   return (
     <div
       className={`relative w-full h-full flex items-center justify-center transition-transform duration-700 ${
-        isBlooming ? 'animate-sway' : ''
+        hasBloom ? 'animate-sway' : ''
       }`}
     >
       <svg
@@ -19,21 +23,18 @@ export default function Sunflower({ isBlooming }: { isBlooming: boolean }) {
         className="w-full h-full max-h-[82vh] overflow-visible drop-shadow-2xl"
       >
         <defs>
-          {/* Stem gradient */}
           <linearGradient id="sunStemGrad" x1="0%" y1="0%" x2="100%" y2="0%">
             <stop offset="0%" stopColor="#1e3a1e" />
             <stop offset="50%" stopColor="#3d7a35" />
             <stop offset="100%" stopColor="#254d21" />
           </linearGradient>
 
-          {/* Leaf gradient */}
           <linearGradient id="sunLeafGrad" x1="0%" y1="0%" x2="100%" y2="100%">
             <stop offset="0%" stopColor="#4d9b42" />
             <stop offset="60%" stopColor="#2d6a26" />
             <stop offset="100%" stopColor="#193d15" />
           </linearGradient>
 
-          {/* Outer Petal Gradient */}
           <linearGradient id="sunOuterPetalGrad" x1="50%" y1="100%" x2="50%" y2="0%">
             <stop offset="0%" stopColor="#f59e0b" />
             <stop offset="25%" stopColor="#fbbf24" />
@@ -41,7 +42,6 @@ export default function Sunflower({ isBlooming }: { isBlooming: boolean }) {
             <stop offset="100%" stopColor="#fef08a" />
           </linearGradient>
 
-          {/* Inner Petal Gradient */}
           <linearGradient id="sunInnerPetalGrad" x1="50%" y1="100%" x2="50%" y2="0%">
             <stop offset="0%" stopColor="#d97706" />
             <stop offset="35%" stopColor="#f59e0b" />
@@ -49,7 +49,6 @@ export default function Sunflower({ isBlooming }: { isBlooming: boolean }) {
             <stop offset="100%" stopColor="#fef08a" />
           </linearGradient>
 
-          {/* Center Disk Radial Gradient */}
           <radialGradient id="sunCenterGrad" cx="50%" cy="50%" r="50%">
             <stop offset="0%" stopColor="#1f1406" />
             <stop offset="45%" stopColor="#3d2407" />
@@ -59,7 +58,6 @@ export default function Sunflower({ isBlooming }: { isBlooming: boolean }) {
             <stop offset="100%" stopColor="#fbbf24" />
           </radialGradient>
 
-          {/* Glow filter */}
           <filter id="goldGlow" x="-30%" y="-30%" width="160%" height="160%">
             <feGaussianBlur in="SourceGraphic" stdDeviation="6" result="blur" />
             <feColorMatrix
@@ -74,7 +72,6 @@ export default function Sunflower({ isBlooming }: { isBlooming: boolean }) {
             </feMerge>
           </filter>
 
-          {/* Petal shape template */}
           <path
             id="sunPetalPath"
             d="M 0 0 C -18 -40, -18 -100, 0 -138 C 18 -100, 18 -40, 0 0 Z"
@@ -87,22 +84,18 @@ export default function Sunflower({ isBlooming }: { isBlooming: boolean }) {
 
         {/* --- STEM --- */}
         <g className="origin-bottom">
-          {/* Main Stem */}
           <path
             d="M 250 760 C 248 620, 240 460, 250 250"
             fill="none"
             stroke="url(#sunStemGrad)"
             strokeWidth="16"
             strokeLinecap="round"
-            className="transition-all duration-1000"
             style={{
               strokeDasharray: 600,
-              strokeDashoffset: isBlooming ? 0 : 600,
-              transition: 'stroke-dashoffset 2.4s cubic-bezier(0.2, 0.8, 0.2, 1)',
+              strokeDashoffset: hasStem ? 0 : 600,
+              transition: 'stroke-dashoffset 2s cubic-bezier(0.2, 0.8, 0.2, 1)',
             }}
           />
-
-          {/* Stem Highlight */}
           <path
             d="M 248 760 C 246 620, 238 460, 248 250"
             fill="none"
@@ -111,8 +104,8 @@ export default function Sunflower({ isBlooming }: { isBlooming: boolean }) {
             strokeLinecap="round"
             style={{
               strokeDasharray: 600,
-              strokeDashoffset: isBlooming ? 0 : 600,
-              transition: 'stroke-dashoffset 2.4s cubic-bezier(0.2, 0.8, 0.2, 1)',
+              strokeDashoffset: hasStem ? 0 : 600,
+              transition: 'stroke-dashoffset 2s cubic-bezier(0.2, 0.8, 0.2, 1)',
             }}
           />
         </g>
@@ -123,9 +116,9 @@ export default function Sunflower({ isBlooming }: { isBlooming: boolean }) {
           transform="translate(244, 490)"
           style={{
             transformOrigin: '0% 0%',
-            opacity: isBlooming ? 1 : 0,
-            transform: isBlooming ? 'scale(1) rotate(0deg)' : 'scale(0) rotate(-35deg)',
-            transition: 'all 1.6s cubic-bezier(0.34, 1.56, 0.64, 1) 0.8s',
+            opacity: hasLeaves ? 1 : 0,
+            transform: hasLeaves ? 'scale(1) rotate(0deg)' : 'scale(0.01) rotate(-35deg)',
+            transition: 'all 1.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.2s',
           }}
         >
           <path
@@ -134,27 +127,12 @@ export default function Sunflower({ isBlooming }: { isBlooming: boolean }) {
             stroke="#1b4317"
             strokeWidth="2"
           />
-          {/* Leaf rib & veins */}
           <path
             d="M 0 0 C -45 25, -90 45, -145 72"
             fill="none"
             stroke="#6ee7b7"
             strokeWidth="2.5"
             strokeOpacity="0.6"
-          />
-          <path
-            d="M -35 15 C -45 5, -60 2, -75 5"
-            fill="none"
-            stroke="#6ee7b7"
-            strokeWidth="1.5"
-            strokeOpacity="0.4"
-          />
-          <path
-            d="M -70 33 C -80 20, -100 20, -115 25"
-            fill="none"
-            stroke="#6ee7b7"
-            strokeWidth="1.5"
-            strokeOpacity="0.4"
           />
         </g>
 
@@ -163,9 +141,9 @@ export default function Sunflower({ isBlooming }: { isBlooming: boolean }) {
           transform="translate(248, 410)"
           style={{
             transformOrigin: '0% 0%',
-            opacity: isBlooming ? 1 : 0,
-            transform: isBlooming ? 'scale(1) rotate(0deg)' : 'scale(0) rotate(35deg)',
-            transition: 'all 1.6s cubic-bezier(0.34, 1.56, 0.64, 1) 1.2s',
+            opacity: hasLeaves ? 1 : 0,
+            transform: hasLeaves ? 'scale(1) rotate(0deg)' : 'scale(0.01) rotate(35deg)',
+            transition: 'all 1.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.3s',
           }}
         >
           <path
@@ -174,27 +152,12 @@ export default function Sunflower({ isBlooming }: { isBlooming: boolean }) {
             stroke="#1b4317"
             strokeWidth="2"
           />
-          {/* Leaf rib & veins */}
           <path
             d="M 0 0 C 45 22, 95 40, 155 62"
             fill="none"
             stroke="#6ee7b7"
             strokeWidth="2.5"
             strokeOpacity="0.6"
-          />
-          <path
-            d="M 40 16 C 55 5, 75 4, 90 8"
-            fill="none"
-            stroke="#6ee7b7"
-            strokeWidth="1.5"
-            strokeOpacity="0.4"
-          />
-          <path
-            d="M 80 34 C 95 20, 120 22, 130 28"
-            fill="none"
-            stroke="#6ee7b7"
-            strokeWidth="1.5"
-            strokeOpacity="0.4"
           />
         </g>
 
@@ -203,20 +166,22 @@ export default function Sunflower({ isBlooming }: { isBlooming: boolean }) {
           transform="translate(250, 250)"
           style={{
             transformOrigin: '250px 250px',
-            opacity: isBlooming ? 1 : 0,
-            transform: isBlooming ? 'scale(1)' : 'scale(0.15)',
-            transition: 'all 1.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) 1.4s',
+            opacity: hasBud ? 1 : 0,
+            transform: hasBloom ? 'scale(1)' : hasBud ? 'scale(0.55)' : 'scale(0.01)',
+            transition: 'all 1.5s cubic-bezier(0.175, 0.885, 0.32, 1.25) 0.3s',
           }}
         >
           {/* Ambient Head Glow */}
-          <circle
-            cx="0"
-            cy="0"
-            r="160"
-            fill="url(#goldGlow)"
-            opacity="0.35"
-            className="animate-pulse"
-          />
+          {hasBloom && (
+            <circle
+              cx="0"
+              cy="0"
+              r="160"
+              fill="url(#goldGlow)"
+              opacity="0.35"
+              className="animate-pulse"
+            />
+          )}
 
           {/* Outer Petals */}
           <g>
@@ -226,26 +191,17 @@ export default function Sunflower({ isBlooming }: { isBlooming: boolean }) {
                 transform={`rotate(${angle})`}
                 style={{
                   transformOrigin: '0 0',
-                  opacity: isBlooming ? 1 : 0,
-                  transform: isBlooming
+                  opacity: hasBloom ? 1 : 0,
+                  transform: hasBloom
                     ? `rotate(${angle}deg) scale(1)`
-                    : `rotate(${angle}deg) scale(0.1)`,
-                  transition: `all 1.4s cubic-bezier(0.2, 0.9, 0.3, 1.2) ${1.6 + idx * 0.03}s`,
+                    : `rotate(${angle}deg) scale(0.05)`,
+                  transition: `all 1.2s cubic-bezier(0.2, 0.9, 0.3, 1.2) ${0.2 + idx * 0.025}s`,
                 }}
               >
                 <use
                   href="#sunPetalPath"
                   fill="url(#sunOuterPetalGrad)"
                   filter="drop-shadow(0 2px 4px rgba(120, 53, 15, 0.35))"
-                />
-                {/* Petal fine vein line */}
-                <line
-                  x1="0"
-                  y1="-10"
-                  x2="0"
-                  y2="-120"
-                  stroke="rgba(245, 158, 11, 0.4)"
-                  strokeWidth="1.5"
                 />
               </g>
             ))}
@@ -259,11 +215,11 @@ export default function Sunflower({ isBlooming }: { isBlooming: boolean }) {
                 transform={`rotate(${angle})`}
                 style={{
                   transformOrigin: '0 0',
-                  opacity: isBlooming ? 1 : 0,
-                  transform: isBlooming
+                  opacity: hasBloom ? 1 : 0,
+                  transform: hasBloom
                     ? `rotate(${angle}deg) scale(1)`
-                    : `rotate(${angle}deg) scale(0.1)`,
-                  transition: `all 1.3s cubic-bezier(0.2, 0.9, 0.3, 1.2) ${2.0 + idx * 0.03}s`,
+                    : `rotate(${angle}deg) scale(0.05)`,
+                  transition: `all 1.1s cubic-bezier(0.2, 0.9, 0.3, 1.2) ${0.3 + idx * 0.025}s`,
                 }}
               >
                 <use
@@ -284,6 +240,7 @@ export default function Sunflower({ isBlooming }: { isBlooming: boolean }) {
             stroke="#78350f"
             strokeWidth="3"
             filter="drop-shadow(0 0 12px rgba(245, 158, 11, 0.6))"
+            className={hasBud && !hasBloom ? 'animate-pulse' : ''}
           />
 
           {/* Seed florets decorative concentric rings */}

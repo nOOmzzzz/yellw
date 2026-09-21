@@ -1,10 +1,11 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import BackgroundEffects from './components/BackgroundEffects';
 import FallingPetals from './components/FallingPetals';
 import MusicBoxPlayer from './components/MusicBoxPlayer';
 import DedicationCard from './components/DedicationCard';
+import GoldenSeed from './components/GoldenSeed';
 import Bouquet from './components/flowers/Bouquet';
 import Sunflower from './components/flowers/Sunflower';
 import Narcissus from './components/flowers/Narcissus';
@@ -13,48 +14,53 @@ import { FLOWER_OPTIONS, FlowerType } from './components/types';
 
 export default function Home() {
   const [selectedFlower, setSelectedFlower] = useState<FlowerType>('bouquet');
-  const [isBlooming, setIsBlooming] = useState(false);
+  // step: 0 = Golden Seed dot, 1 = Stem, 2 = Leaves, 3 = Bud, 4 = Full Bloom
+  const [step, setStep] = useState<number>(0);
+  const [renderKey, setRenderKey] = useState<number>(0);
+
   const [showDedication, setShowDedication] = useState(false);
   const [showFallingPetals, setShowFallingPetals] = useState(true);
   const [showFireflies, setShowFireflies] = useState(true);
   const [immersiveMode, setImmersiveMode] = useState(false);
 
-  // Trigger blooming animation on initial mount and when flower changes
-  useEffect(() => {
-    setIsBlooming(false);
-    const timer = setTimeout(() => {
-      setIsBlooming(true);
-    }, 120);
-    return () => clearTimeout(timer);
-  }, [selectedFlower]);
+  const currentMeta = FLOWER_OPTIONS.find((f) => f.id === selectedFlower)!;
 
-  const handleSelectFlower = (type: FlowerType) => {
-    if (type === selectedFlower) {
-      // Re-trigger bloom if clicked again
-      setIsBlooming(false);
-      setTimeout(() => setIsBlooming(true), 120);
-    } else {
-      setSelectedFlower(type);
+  // Advance growth step on click
+  const handleNextStep = () => {
+    if (step < 4) {
+      setStep((prev) => prev + 1);
     }
   };
 
-  const handleReplayBloom = () => {
-    setIsBlooming(false);
-    setTimeout(() => setIsBlooming(true), 120);
+  // Switch flower
+  const handleSelectFlower = (type: FlowerType) => {
+    setSelectedFlower(type);
+    setRenderKey((prev) => prev + 1);
+    // If already bloomed, remain bloomed with new flower; otherwise keep current step
   };
 
-  const currentMeta = FLOWER_OPTIONS.find((f) => f.id === selectedFlower)!;
+  // Reset to seed stage to re-build from the yellow dot
+  const handleResetToSeed = () => {
+    setStep(0);
+    setRenderKey((prev) => prev + 1);
+  };
+
+  // Instant full bloom
+  const handleInstantBloom = () => {
+    setStep(4);
+    setRenderKey((prev) => prev + 1);
+  };
 
   return (
-    <main className="relative min-h-screen w-full overflow-hidden bg-gradient-to-b from-[#050813] via-[#091024] to-[#04060e] flex flex-col justify-between">
+    <main className="relative min-h-screen w-full overflow-hidden bg-gradient-to-b from-[#050813] via-[#091024] to-[#04060e] flex flex-col justify-between select-none">
       {/* Background Starfield and Ambient Glow */}
       <BackgroundEffects
         glowColor={currentMeta.glowColor}
         showFireflies={showFireflies}
       />
 
-      {/* Falling Petals Particle Effect */}
-      <FallingPetals active={showFallingPetals} />
+      {/* Falling Petals Particle Effect (always active on full bloom or toggleable) */}
+      <FallingPetals active={showFallingPetals && step >= 3} />
 
       {/* Dedication Card Modal */}
       <DedicationCard
@@ -76,7 +82,7 @@ export default function Home() {
                 <h1 className="text-xl sm:text-2xl font-extrabold tracking-tight bg-gradient-to-r from-amber-200 via-yellow-300 to-amber-400 bg-clip-text text-transparent drop-shadow">
                   Flores Amarillas
                 </h1>
-                <span className="hidden xs:inline-block rounded-full bg-amber-400/20 border border-amber-400/40 px-2.5 py-0.5 text-[10px] font-semibold text-amber-300 tracking-wide">
+                <span className="rounded-full bg-amber-400/20 border border-amber-400/40 px-2.5 py-0.5 text-[10px] font-semibold text-amber-300 tracking-wide">
                   DÍA DE LA PRIMAVERA
                 </span>
               </div>
@@ -86,7 +92,7 @@ export default function Home() {
             <span className="text-amber-300 font-medium">{currentMeta.name}</span>
             <span>•</span>
             <span className="italic text-zinc-400 hidden sm:inline">
-              {currentMeta.symbolism}
+              {currentMeta.tagline}
             </span>
           </p>
         </div>
@@ -114,14 +120,48 @@ export default function Home() {
         </div>
       </header>
 
-      {/* CENTER FLOWER DISPLAY STAGE */}
-      <div className="relative flex-1 w-full max-w-2xl mx-auto flex items-end justify-center px-4 pb-2 z-10">
-        <div className="w-full h-[65vh] sm:h-[72vh] flex items-end justify-center relative">
-          {selectedFlower === 'bouquet' && <Bouquet isBlooming={isBlooming} />}
-          {selectedFlower === 'sunflower' && <Sunflower isBlooming={isBlooming} />}
-          {selectedFlower === 'narcissus' && <Narcissus isBlooming={isBlooming} />}
-          {selectedFlower === 'wildflower' && <Daisy isBlooming={isBlooming} />}
-        </div>
+      {/* CENTER STAGE: GOLDEN SEED OR GROWING FLOWER */}
+      <div className="relative flex-1 w-full max-w-2xl mx-auto flex items-center justify-center px-4 pb-2 z-10">
+        {step === 0 ? (
+          /* Step 0: The glowing yellow point / Golden Seed */
+          <div className="w-full flex items-center justify-center py-12">
+            <GoldenSeed
+              step={step}
+              flowerName={currentMeta.name}
+              onClick={handleNextStep}
+            />
+          </div>
+        ) : (
+          /* Step 1 to 4: The Growing / Blooming Flower */
+          <div
+            onClick={step < 4 ? handleNextStep : undefined}
+            className={`w-full h-[65vh] sm:h-[72vh] flex items-end justify-center relative cursor-pointer group`}
+            title={step < 4 ? 'Haz click para continuar armando la flor' : '¡Flor completa!'}
+          >
+            {/* Interactive hint bubble while growing */}
+            {step < 4 && (
+              <div className="absolute top-4 left-1/2 -translate-x-1/2 z-30 px-3.5 py-1.5 rounded-full bg-amber-400/25 border border-amber-400/40 text-amber-200 text-xs font-medium backdrop-blur-md shadow-lg animate-pulse flex items-center gap-2">
+                <span>Paso {step} de 4:</span>
+                <span>
+                  {step === 1 && '🌱 Creciendo tallo (Haz click aquí)'}
+                  {step === 2 && '🍃 Abriendo hojas (Haz click aquí)'}
+                  {step === 3 && '🌟 Formando capullo (Haz click para florecer)'}
+                </span>
+              </div>
+            )}
+
+            {/* Individual Keyed Flower Component to guarantee clean state transition */}
+            <div
+              key={`${selectedFlower}-${renderKey}`}
+              className="w-full h-full flex items-end justify-center"
+            >
+              {selectedFlower === 'bouquet' && <Bouquet step={step} />}
+              {selectedFlower === 'sunflower' && <Sunflower step={step} />}
+              {selectedFlower === 'narcissus' && <Narcissus step={step} />}
+              {selectedFlower === 'wildflower' && <Daisy step={step} />}
+            </div>
+          </div>
+        )}
       </div>
 
       {/* BOTTOM CONTROLS & FLOWER SELECTOR */}
@@ -160,15 +200,28 @@ export default function Home() {
 
           {/* Secondary Controls Bar */}
           <div className="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-white/10 text-xs text-zinc-400">
-            <div className="flex items-center gap-2">
+            <div className="flex flex-wrap items-center gap-2">
+              {/* Reset to Seed / Build again */}
               <button
-                onClick={handleReplayBloom}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/5 hover:bg-white/10 text-zinc-300 hover:text-white transition border border-white/5"
-                title="Volver a reproducir la animación de florecimiento"
+                onClick={handleResetToSeed}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-400/15 hover:bg-amber-400/25 text-amber-300 border border-amber-400/30 transition shadow-sm"
+                title="Volver a la semilla amarilla para armarla paso a paso con clicks"
               >
-                <span>↺</span>
-                <span>Florecer de nuevo</span>
+                <span>✨</span>
+                <span>Armar desde semilla</span>
               </button>
+
+              {/* Instant Bloom */}
+              {step < 4 && (
+                <button
+                  onClick={handleInstantBloom}
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/5 hover:bg-white/10 text-zinc-300 hover:text-white transition border border-white/5"
+                  title="Completar florecimiento de inmediato"
+                >
+                  <span>⚡</span>
+                  <span>Florecer directo</span>
+                </button>
+              )}
 
               <button
                 onClick={() => setShowFallingPetals(!showFallingPetals)}
