@@ -79,7 +79,10 @@ export default function BackgroundEffects({
   }, []);
 
   return (
-    <div className="pointer-events-none absolute inset-0 overflow-hidden select-none">
+    <div
+      suppressHydrationWarning
+      className="pointer-events-none absolute inset-0 overflow-hidden select-none"
+    >
       {/* Deep atmospheric ambient gradients */}
       <div
         className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[700px] h-[550px] rounded-full blur-[140px] opacity-40 transition-all duration-1000"

@@ -13,6 +13,7 @@ export default function Narcissus({ isBlooming }: { isBlooming: boolean }) {
       }`}
     >
       <svg
+        suppressHydrationWarning
         viewBox="0 0 500 760"
         className="w-full h-full max-h-[82vh] overflow-visible drop-shadow-2xl"
       >
@@ -175,8 +176,8 @@ export default function Narcissus({ isBlooming }: { isBlooming: boolean }) {
             {/* Ruffled scalloped edge ring */}
             {Array.from({ length: 16 }).map((_, rIdx) => {
               const rad = (rIdx * 360) / 16 * (Math.PI / 180);
-              const cx = Math.cos(rad) * 48;
-              const cy = Math.sin(rad) * 48;
+              const cx = Math.round(Math.cos(rad) * 48 * 100) / 100;
+              const cy = Math.round(Math.sin(rad) * 48 * 100) / 100;
               return (
                 <circle
                   key={`ruffle-${rIdx}`}

@@ -14,6 +14,7 @@ export default function Sunflower({ isBlooming }: { isBlooming: boolean }) {
       }`}
     >
       <svg
+        suppressHydrationWarning
         viewBox="0 0 500 760"
         className="w-full h-full max-h-[82vh] overflow-visible drop-shadow-2xl"
       >
@@ -292,14 +293,15 @@ export default function Sunflower({ isBlooming }: { isBlooming: boolean }) {
               <g key={`ring-${rIdx}`} opacity="0.65">
                 {Array.from({ length: count }).map((_, dIdx) => {
                   const rad = (dIdx * 360) / count * (Math.PI / 180);
-                  const cx = Math.cos(rad) * radius;
-                  const cy = Math.sin(rad) * radius;
+                  const cx = Math.round(Math.cos(rad) * radius * 100) / 100;
+                  const cy = Math.round(Math.sin(rad) * radius * 100) / 100;
+                  const r = Math.round((1.6 + rIdx * 0.3) * 100) / 100;
                   return (
                     <circle
                       key={`dot-${rIdx}-${dIdx}`}
                       cx={cx}
                       cy={cy}
-                      r={1.6 + (rIdx * 0.3)}
+                      r={r}
                       fill={rIdx === 3 ? '#fde047' : '#f59e0b'}
                     />
                   );

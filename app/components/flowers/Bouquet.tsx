@@ -97,14 +97,15 @@ export default function Bouquet({ isBlooming }: { isBlooming: boolean }) {
             <g key={`core-ring-${rIdx}`}>
               {Array.from({ length: dots }).map((_, dIdx) => {
                 const rad = (dIdx * 360) / dots * (Math.PI / 180);
-                const cx = Math.cos(rad) * (size * rFrac);
-                const cy = Math.sin(rad) * (size * rFrac);
+                const cx = Math.round(Math.cos(rad) * (size * rFrac) * 100) / 100;
+                const cy = Math.round(Math.sin(rad) * (size * rFrac) * 100) / 100;
+                const r = Math.round(size * 0.035 * 100) / 100;
                 return (
                   <circle
                     key={`dot-${rIdx}-${dIdx}`}
                     cx={cx}
                     cy={cy}
-                    r={size * 0.035}
+                    r={r}
                     fill={rIdx === 1 ? '#fef08a' : '#d97706'}
                   />
                 );
@@ -123,6 +124,7 @@ export default function Bouquet({ isBlooming }: { isBlooming: boolean }) {
       }`}
     >
       <svg
+        suppressHydrationWarning
         viewBox="0 0 600 780"
         className="w-full h-full max-h-[82vh] overflow-visible drop-shadow-2xl"
       >

@@ -49,7 +49,10 @@ export default function FallingPetals({ active = true }: { active?: boolean }) {
   if (!active) return null;
 
   return (
-    <div className="pointer-events-none absolute inset-0 overflow-hidden select-none z-10">
+    <div
+      suppressHydrationWarning
+      className="pointer-events-none absolute inset-0 overflow-hidden select-none z-10"
+    >
       {petals.map((p) => (
         <div
           key={p.id}

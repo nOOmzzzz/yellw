@@ -13,6 +13,7 @@ export default function Daisy({ isBlooming }: { isBlooming: boolean }) {
       }`}
     >
       <svg
+        suppressHydrationWarning
         viewBox="0 0 500 760"
         className="w-full h-full max-h-[82vh] overflow-visible drop-shadow-2xl"
       >
@@ -189,8 +190,8 @@ export default function Daisy({ isBlooming }: { isBlooming: boolean }) {
               <g key={`daisy-ring-${ringIdx}`} opacity="0.6">
                 {Array.from({ length: count }).map((_, dotIdx) => {
                   const rad = (dotIdx * 360) / count * (Math.PI / 180);
-                  const cx = Math.cos(rad) * radius;
-                  const cy = Math.sin(rad) * radius;
+                  const cx = Math.round(Math.cos(rad) * radius * 100) / 100;
+                  const cy = Math.round(Math.sin(rad) * radius * 100) / 100;
                   return (
                     <circle
                       key={`daisy-dot-${ringIdx}-${dotIdx}`}
