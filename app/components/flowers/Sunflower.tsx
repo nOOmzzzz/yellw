@@ -13,28 +13,31 @@ export default function Sunflower({ step = 4 }: { step?: number }) {
 
   return (
     <div
-      className={`relative w-full h-full flex items-center justify-center transition-transform duration-700 ${
+      className={`relative w-full h-full flex items-end justify-center origin-bottom transition-transform duration-700 ${
         hasBloom ? 'animate-sway' : ''
       }`}
     >
       <svg
         suppressHydrationWarning
         viewBox="0 0 500 760"
-        className="w-full h-full max-h-[82vh] overflow-visible drop-shadow-2xl"
+        className="w-auto h-full max-h-[70vh] sm:max-h-[75vh] overflow-visible drop-shadow-2xl"
       >
         <defs>
+          {/* Stem gradient */}
           <linearGradient id="sunStemGrad" x1="0%" y1="0%" x2="100%" y2="0%">
             <stop offset="0%" stopColor="#1e3a1e" />
             <stop offset="50%" stopColor="#3d7a35" />
             <stop offset="100%" stopColor="#254d21" />
           </linearGradient>
 
+          {/* Leaf gradient */}
           <linearGradient id="sunLeafGrad" x1="0%" y1="0%" x2="100%" y2="100%">
             <stop offset="0%" stopColor="#4d9b42" />
             <stop offset="60%" stopColor="#2d6a26" />
             <stop offset="100%" stopColor="#193d15" />
           </linearGradient>
 
+          {/* Outer Petal Gradient */}
           <linearGradient id="sunOuterPetalGrad" x1="50%" y1="100%" x2="50%" y2="0%">
             <stop offset="0%" stopColor="#f59e0b" />
             <stop offset="25%" stopColor="#fbbf24" />
@@ -42,6 +45,7 @@ export default function Sunflower({ step = 4 }: { step?: number }) {
             <stop offset="100%" stopColor="#fef08a" />
           </linearGradient>
 
+          {/* Inner Petal Gradient */}
           <linearGradient id="sunInnerPetalGrad" x1="50%" y1="100%" x2="50%" y2="0%">
             <stop offset="0%" stopColor="#d97706" />
             <stop offset="35%" stopColor="#f59e0b" />
@@ -49,6 +53,7 @@ export default function Sunflower({ step = 4 }: { step?: number }) {
             <stop offset="100%" stopColor="#fef08a" />
           </linearGradient>
 
+          {/* Center Disk Radial Gradient */}
           <radialGradient id="sunCenterGrad" cx="50%" cy="50%" r="50%">
             <stop offset="0%" stopColor="#1f1406" />
             <stop offset="45%" stopColor="#3d2407" />
@@ -57,6 +62,12 @@ export default function Sunflower({ step = 4 }: { step?: number }) {
             <stop offset="97%" stopColor="#b45309" />
             <stop offset="100%" stopColor="#fbbf24" />
           </radialGradient>
+
+          {/* Calyx Green Gradient */}
+          <linearGradient id="sunCalyxGrad" x1="0%" y1="100%" x2="0%" y2="0%">
+            <stop offset="0%" stopColor="#14532d" />
+            <stop offset="100%" stopColor="#22c55e" />
+          </linearGradient>
 
           <filter id="goldGlow" x="-30%" y="-30%" width="160%" height="160%">
             <feGaussianBlur in="SourceGraphic" stdDeviation="6" result="blur" />
@@ -82,10 +93,14 @@ export default function Sunflower({ step = 4 }: { step?: number }) {
           />
         </defs>
 
+        {/* --- GROUND MOUND --- */}
+        <ellipse cx="250" cy="758" rx="80" ry="14" fill="#0c2310" opacity="0.8" />
+        <ellipse cx="250" cy="758" rx="55" ry="8" fill="#14532d" opacity="0.6" />
+
         {/* --- STEM --- */}
-        <g className="origin-bottom">
+        <g>
           <path
-            d="M 250 760 C 248 620, 240 460, 250 250"
+            d="M 250 760 C 248 620, 242 450, 250 250"
             fill="none"
             stroke="url(#sunStemGrad)"
             strokeWidth="16"
@@ -93,11 +108,11 @@ export default function Sunflower({ step = 4 }: { step?: number }) {
             style={{
               strokeDasharray: 600,
               strokeDashoffset: hasStem ? 0 : 600,
-              transition: 'stroke-dashoffset 2s cubic-bezier(0.2, 0.8, 0.2, 1)',
+              transition: 'stroke-dashoffset 1.8s cubic-bezier(0.2, 0.8, 0.2, 1)',
             }}
           />
           <path
-            d="M 248 760 C 246 620, 238 460, 248 250"
+            d="M 248 760 C 246 620, 240 450, 248 250"
             fill="none"
             stroke="rgba(134, 239, 172, 0.35)"
             strokeWidth="3"
@@ -105,170 +120,184 @@ export default function Sunflower({ step = 4 }: { step?: number }) {
             style={{
               strokeDasharray: 600,
               strokeDashoffset: hasStem ? 0 : 600,
-              transition: 'stroke-dashoffset 2s cubic-bezier(0.2, 0.8, 0.2, 1)',
+              transition: 'stroke-dashoffset 1.8s cubic-bezier(0.2, 0.8, 0.2, 1)',
             }}
           />
         </g>
 
         {/* --- LEAVES --- */}
-        {/* Left Leaf */}
-        <g
-          transform="translate(244, 490)"
-          style={{
-            transformOrigin: '0% 0%',
-            opacity: hasLeaves ? 1 : 0,
-            transform: hasLeaves ? 'scale(1) rotate(0deg)' : 'scale(0.01) rotate(-35deg)',
-            transition: 'all 1.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.2s',
-          }}
-        >
-          <path
-            d="M 0 0 C -60 -10, -115 15, -150 75 C -110 110, -45 80, 0 0 Z"
-            fill="url(#sunLeafGrad)"
-            stroke="#1b4317"
-            strokeWidth="2"
-          />
-          <path
-            d="M 0 0 C -45 25, -90 45, -145 72"
-            fill="none"
-            stroke="#6ee7b7"
-            strokeWidth="2.5"
-            strokeOpacity="0.6"
-          />
+        {/* Left Leaf: Anchor at (245, 485) */}
+        <g transform="translate(245, 485)">
+          <g
+            style={{
+              transformOrigin: '0px 0px',
+              opacity: hasLeaves ? 1 : 0,
+              transform: hasLeaves ? 'scale(1) rotate(0deg)' : 'scale(0.001) rotate(-35deg)',
+              transition: 'all 1.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.2s',
+            }}
+          >
+            <path
+              d="M 0 0 C -60 -10, -115 15, -150 75 C -110 110, -45 80, 0 0 Z"
+              fill="url(#sunLeafGrad)"
+              stroke="#1b4317"
+              strokeWidth="2"
+            />
+            <path
+              d="M 0 0 C -45 25, -90 45, -145 72"
+              fill="none"
+              stroke="#6ee7b7"
+              strokeWidth="2.5"
+              strokeOpacity="0.6"
+            />
+          </g>
         </g>
 
-        {/* Right Leaf */}
-        <g
-          transform="translate(248, 410)"
-          style={{
-            transformOrigin: '0% 0%',
-            opacity: hasLeaves ? 1 : 0,
-            transform: hasLeaves ? 'scale(1) rotate(0deg)' : 'scale(0.01) rotate(35deg)',
-            transition: 'all 1.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.3s',
-          }}
-        >
-          <path
-            d="M 0 0 C 65 -15, 125 10, 160 65 C 120 100, 50 75, 0 0 Z"
-            fill="url(#sunLeafGrad)"
-            stroke="#1b4317"
-            strokeWidth="2"
-          />
-          <path
-            d="M 0 0 C 45 22, 95 40, 155 62"
-            fill="none"
-            stroke="#6ee7b7"
-            strokeWidth="2.5"
-            strokeOpacity="0.6"
-          />
+        {/* Right Leaf: Anchor at (248, 410) */}
+        <g transform="translate(248, 410)">
+          <g
+            style={{
+              transformOrigin: '0px 0px',
+              opacity: hasLeaves ? 1 : 0,
+              transform: hasLeaves ? 'scale(1) rotate(0deg)' : 'scale(0.001) rotate(35deg)',
+              transition: 'all 1.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.3s',
+            }}
+          >
+            <path
+              d="M 0 0 C 65 -15, 125 10, 160 65 C 120 100, 50 75, 0 0 Z"
+              fill="url(#sunLeafGrad)"
+              stroke="#1b4317"
+              strokeWidth="2"
+            />
+            <path
+              d="M 0 0 C 45 22, 95 40, 155 62"
+              fill="none"
+              stroke="#6ee7b7"
+              strokeWidth="2.5"
+              strokeOpacity="0.6"
+            />
+          </g>
         </g>
 
-        {/* --- FLOWER HEAD --- */}
-        <g
-          transform="translate(250, 250)"
-          style={{
-            transformOrigin: '250px 250px',
-            opacity: hasBud ? 1 : 0,
-            transform: hasBloom ? 'scale(1)' : hasBud ? 'scale(0.55)' : 'scale(0.01)',
-            transition: 'all 1.5s cubic-bezier(0.175, 0.885, 0.32, 1.25) 0.3s',
-          }}
-        >
-          {/* Ambient Head Glow */}
-          {hasBloom && (
-            <circle
-              cx="0"
-              cy="0"
-              r="160"
-              fill="url(#goldGlow)"
-              opacity="0.35"
-              className="animate-pulse"
+        {/* --- FLOWER HEAD: Anchor at exact stem tip (250, 250) --- */}
+        <g transform="translate(250, 250)">
+          {/* Green Calyx Cup connecting stem to flower */}
+          {hasStem && (
+            <path
+              d="M -22 10 C -15 35, 15 35, 22 10 C 12 18, -12 18, -22 10 Z"
+              fill="url(#sunCalyxGrad)"
+              stroke="#14532d"
+              strokeWidth="1.5"
             />
           )}
 
-          {/* Outer Petals */}
-          <g>
-            {outerPetals.map((angle, idx) => (
-              <g
-                key={`outer-${idx}`}
-                transform={`rotate(${angle})`}
-                style={{
-                  transformOrigin: '0 0',
-                  opacity: hasBloom ? 1 : 0,
-                  transform: hasBloom
-                    ? `rotate(${angle}deg) scale(1)`
-                    : `rotate(${angle}deg) scale(0.05)`,
-                  transition: `all 1.2s cubic-bezier(0.2, 0.9, 0.3, 1.2) ${0.2 + idx * 0.025}s`,
-                }}
-              >
-                <use
-                  href="#sunPetalPath"
-                  fill="url(#sunOuterPetalGrad)"
-                  filter="drop-shadow(0 2px 4px rgba(120, 53, 15, 0.35))"
-                />
-              </g>
-            ))}
+          {/* Dynamic Blooming Group (scales around local 0, 0) */}
+          <g
+            style={{
+              transformOrigin: '0px 0px',
+              opacity: hasBud ? 1 : 0,
+              transform: hasBloom ? 'scale(1)' : hasBud ? 'scale(0.55)' : 'scale(0.001)',
+              transition: 'all 1.5s cubic-bezier(0.175, 0.885, 0.32, 1.25) 0.2s',
+            }}
+          >
+            {/* Ambient Head Glow */}
+            {hasBloom && (
+              <circle
+                cx="0"
+                cy="0"
+                r="160"
+                fill="url(#goldGlow)"
+                opacity="0.35"
+                className="animate-pulse"
+              />
+            )}
+
+            {/* Outer Petals */}
+            <g>
+              {outerPetals.map((angle, idx) => (
+                <g
+                  key={`outer-${idx}`}
+                  transform={`rotate(${angle})`}
+                  style={{
+                    transformOrigin: '0px 0px',
+                    opacity: hasBloom ? 1 : 0,
+                    transform: hasBloom
+                      ? `scale(1)`
+                      : `scale(0.01)`,
+                    transition: `all 1.2s cubic-bezier(0.2, 0.9, 0.3, 1.2) ${0.15 + idx * 0.02}s`,
+                  }}
+                >
+                  <use
+                    href="#sunPetalPath"
+                    fill="url(#sunOuterPetalGrad)"
+                    filter="drop-shadow(0 2px 4px rgba(120, 53, 15, 0.35))"
+                  />
+                </g>
+              ))}
+            </g>
+
+            {/* Inner Petals */}
+            <g>
+              {innerPetals.map((angle, idx) => (
+                <g
+                  key={`inner-${idx}`}
+                  transform={`rotate(${angle})`}
+                  style={{
+                    transformOrigin: '0px 0px',
+                    opacity: hasBloom ? 1 : 0,
+                    transform: hasBloom
+                      ? `scale(1)`
+                      : `scale(0.01)`,
+                    transition: `all 1.1s cubic-bezier(0.2, 0.9, 0.3, 1.2) ${0.25 + idx * 0.02}s`,
+                  }}
+                >
+                  <use
+                    href="#sunPetalInnerPath"
+                    fill="url(#sunInnerPetalGrad)"
+                    filter="drop-shadow(0 3px 6px rgba(120, 53, 15, 0.45))"
+                  />
+                </g>
+              ))}
+            </g>
+
+            {/* Calyx & Seed Center */}
+            <circle
+              cx="0"
+              cy="0"
+              r="64"
+              fill="url(#sunCenterGrad)"
+              stroke="#78350f"
+              strokeWidth="3"
+              filter="drop-shadow(0 0 12px rgba(245, 158, 11, 0.6))"
+              className={hasBud && !hasBloom ? 'animate-pulse' : ''}
+            />
+
+            {/* Seed florets decorative concentric rings */}
+            {[16, 28, 40, 52].map((radius, rIdx) => {
+              const count = 10 + rIdx * 8;
+              return (
+                <g key={`ring-${rIdx}`} opacity="0.65">
+                  {Array.from({ length: count }).map((_, dIdx) => {
+                    const rad = (dIdx * 360) / count * (Math.PI / 180);
+                    const cx = Math.round(Math.cos(rad) * radius * 100) / 100;
+                    const cy = Math.round(Math.sin(rad) * radius * 100) / 100;
+                    const r = Math.round((1.6 + rIdx * 0.3) * 100) / 100;
+                    return (
+                      <circle
+                        key={`dot-${rIdx}-${dIdx}`}
+                        cx={cx}
+                        cy={cy}
+                        r={r}
+                        fill={rIdx === 3 ? '#fde047' : '#f59e0b'}
+                      />
+                    );
+                  })}
+                </g>
+              );
+            })}
+
+            {/* Center core highlight */}
+            <circle cx="-10" cy="-12" r="14" fill="#fbbf24" opacity="0.15" />
           </g>
-
-          {/* Inner Petals */}
-          <g>
-            {innerPetals.map((angle, idx) => (
-              <g
-                key={`inner-${idx}`}
-                transform={`rotate(${angle})`}
-                style={{
-                  transformOrigin: '0 0',
-                  opacity: hasBloom ? 1 : 0,
-                  transform: hasBloom
-                    ? `rotate(${angle}deg) scale(1)`
-                    : `rotate(${angle}deg) scale(0.05)`,
-                  transition: `all 1.1s cubic-bezier(0.2, 0.9, 0.3, 1.2) ${0.3 + idx * 0.025}s`,
-                }}
-              >
-                <use
-                  href="#sunPetalInnerPath"
-                  fill="url(#sunInnerPetalGrad)"
-                  filter="drop-shadow(0 3px 6px rgba(120, 53, 15, 0.45))"
-                />
-              </g>
-            ))}
-          </g>
-
-          {/* Calyx & Seed Center */}
-          <circle
-            cx="0"
-            cy="0"
-            r="64"
-            fill="url(#sunCenterGrad)"
-            stroke="#78350f"
-            strokeWidth="3"
-            filter="drop-shadow(0 0 12px rgba(245, 158, 11, 0.6))"
-            className={hasBud && !hasBloom ? 'animate-pulse' : ''}
-          />
-
-          {/* Seed florets decorative concentric rings */}
-          {[16, 28, 40, 52].map((radius, rIdx) => {
-            const count = 10 + rIdx * 8;
-            return (
-              <g key={`ring-${rIdx}`} opacity="0.65">
-                {Array.from({ length: count }).map((_, dIdx) => {
-                  const rad = (dIdx * 360) / count * (Math.PI / 180);
-                  const cx = Math.round(Math.cos(rad) * radius * 100) / 100;
-                  const cy = Math.round(Math.sin(rad) * radius * 100) / 100;
-                  const r = Math.round((1.6 + rIdx * 0.3) * 100) / 100;
-                  return (
-                    <circle
-                      key={`dot-${rIdx}-${dIdx}`}
-                      cx={cx}
-                      cy={cy}
-                      r={r}
-                      fill={rIdx === 3 ? '#fde047' : '#f59e0b'}
-                    />
-                  );
-                })}
-              </g>
-            );
-          })}
-
-          {/* Center core highlight */}
-          <circle cx="-10" cy="-12" r="14" fill="#fbbf24" opacity="0.15" />
         </g>
       </svg>
     </div>
