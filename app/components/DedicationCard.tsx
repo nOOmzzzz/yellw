@@ -1,24 +1,20 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Mail, X, Check, Copy, Edit3, Heart } from 'lucide-react';
+import { Mail, X, Check, Copy, Edit3, Sparkles } from 'lucide-react';
 
 const DEDICATION_PRESETS = [
   {
     title: '21 de Septiembre • Primavera',
-    text: 'Te entrego estas flores amarillas como promesa de luz, ternura y un nuevo ciclo lleno de momentos inolvidables a tu lado.',
+    text: 'Un detalle de flores amarillas para recibir esta primavera. Que este nuevo ciclo llegue cargado de luz, sonrisas y momentos muy felices para ti.',
   },
   {
-    title: 'Flores Amarillas • Tradición',
-    text: 'Ella sabía que él sabía, que algún día pasaría, que vendría a buscarla con sus flores amarillas.',
+    title: 'Alegría & Buenos Deseos',
+    text: 'Que la calidez y vitalidad de estas flores amarillas iluminen tus días, recordándote lo valiosa que es tu energía y todo lo bueno que mereces.',
   },
   {
-    title: 'Afecto Sincero & Gratitud',
-    text: 'Que la calidez dorada de este ramo ilumine tus días, recordándote lo especial y valiosa que es tu presencia en mi vida.',
-  },
-  {
-    title: 'Complicidad & Alegría',
-    text: 'Un ramillete silvestre para celebrar nuestra cercanía, las risas compartidas y la dicha constante de caminar juntos.',
+    title: 'Buenas Vibras & Gratitud',
+    text: 'Para desearte una temporada radiante. Gracias por compartir siempre tu buena vibra, tu autenticidad y alegría en cada momento.',
   },
 ];
 
@@ -29,9 +25,9 @@ export default function DedicationCard({
   isOpen: boolean;
   onClose: () => void;
 }) {
-  const [recipient, setRecipient] = useState('Para alguien especial');
+  const [recipient, setRecipient] = useState('Para ti');
   const [message, setMessage] = useState(
-    'Ella sabía que él sabía, que algún día pasaría, que vendría a buscarla con sus flores amarillas.'
+    'Un detalle de flores amarillas para recibir esta primavera. Que este nuevo ciclo llegue cargado de luz, sonrisas y momentos muy felices para ti.'
   );
   const [isEditing, setIsEditing] = useState(false);
   const [copied, setCopied] = useState(false);
@@ -39,7 +35,7 @@ export default function DedicationCard({
   if (!isOpen) return null;
 
   const handleCopy = () => {
-    const fullText = `${recipient}\n\n"${message}"\n\nCon todo mi afecto en esta primavera.`;
+    const fullText = `${recipient}\n\n"${message}"\n\n— Feliz 21 de Septiembre`;
     navigator.clipboard.writeText(fullText).then(() => {
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
@@ -93,7 +89,7 @@ export default function DedicationCard({
                   value={recipient}
                   onChange={(e) => setRecipient(e.target.value)}
                   className="w-full rounded-xl border border-white/10 bg-white/[0.03] px-3.5 py-2.5 text-sm text-white placeholder-zinc-500 focus:border-amber-400/60 focus:outline-none transition"
-                  placeholder="Ej: Para mi persona favorita..."
+                  placeholder="Ej: Para alguien especial..."
                 />
               </div>
 
@@ -113,7 +109,7 @@ export default function DedicationCard({
               {/* Presets */}
               <div>
                 <label className="block text-[11px] font-medium uppercase tracking-wider text-zinc-400 mb-2">
-                  Inspiraciones poéticas
+                  Mensajes de primavera sugeridos
                 </label>
                 <div className="flex flex-col gap-1.5">
                   {DEDICATION_PRESETS.map((preset, idx) => (
@@ -130,7 +126,7 @@ export default function DedicationCard({
               </div>
             </div>
           ) : (
-            /* Styled Romantic Note View */
+            /* Styled Note View */
             <div className="relative rounded-2xl border border-amber-400/20 bg-gradient-to-b from-amber-400/[0.04] to-transparent p-6 text-center">
               <div className="text-xs font-semibold tracking-widest text-amber-300/80 uppercase mb-3">
                 {recipient}
@@ -138,9 +134,9 @@ export default function DedicationCard({
               <p className="font-serif italic text-xl sm:text-2xl text-amber-50/95 leading-relaxed">
                 “{message}”
               </p>
-              <div className="mt-4 flex items-center justify-center gap-2 text-xs text-amber-300/60 font-light">
-                <Heart className="w-3.5 h-3.5 fill-amber-400/30 text-amber-400" />
-                <span>Florece con todo mi cariño</span>
+              <div className="mt-4 flex items-center justify-center gap-2 text-xs text-amber-300/70 font-light">
+                <Sparkles className="w-3.5 h-3.5 text-amber-300" />
+                <span>Que tengas una hermosa primavera</span>
               </div>
             </div>
           )}
