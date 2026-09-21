@@ -149,7 +149,7 @@ export default function BouquetTulips({ step = 5 }: { step?: number }) {
             <stop offset="0%" stopColor="#eab308" />
             <stop offset="35%" stopColor="#facc15" />
             <stop offset="85%" stopColor="#fde047" />
-            <stop offset="100%" stopColor="#ffffff" />
+            <stop offset="100%" stopColor="#fffdf5" />
           </linearGradient>
 
           {/* Floral Wrap Paper Gradients */}
@@ -452,7 +452,7 @@ export default function BouquetTulips({ step = 5 }: { step?: number }) {
               strokeWidth="2.5"
               filter="drop-shadow(0 2px 6px rgba(0,0,0,0.6))"
             />
-            <circle cx="-3" cy="-1" r="3.5" fill="#ffffff" opacity="0.6" />
+            <circle cx="-3" cy="-1" r="3.5" fill="#fffdf5" opacity="0.6" />
           </g>
         </g>
       </svg>

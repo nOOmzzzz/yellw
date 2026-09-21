@@ -1,6 +1,17 @@
 'use client';
 
 import React, { useState } from 'react';
+import {
+  Flower2,
+  Flower,
+  Sun,
+  Sparkles,
+  Mail,
+  Maximize2,
+  Minimize2,
+  RotateCcw,
+  Wind,
+} from 'lucide-react';
 import BackgroundEffects from './components/BackgroundEffects';
 import FallingPetals from './components/FallingPetals';
 import MusicBoxPlayer from './components/MusicBoxPlayer';
@@ -51,8 +62,21 @@ export default function Home() {
     setRenderKey((prev) => prev + 1);
   };
 
+  const getFlowerIcon = (id: FlowerType) => {
+    switch (id) {
+      case 'bouquet':
+        return <Flower2 className="w-3.5 h-3.5" />;
+      case 'tulips':
+        return <Flower className="w-3.5 h-3.5" />;
+      case 'sunflower':
+        return <Sun className="w-3.5 h-3.5" />;
+      case 'wildflower':
+        return <Sparkles className="w-3.5 h-3.5" />;
+    }
+  };
+
   return (
-    <main className="relative min-h-screen w-full overflow-hidden bg-gradient-to-b from-[#050813] via-[#091024] to-[#04060e] flex flex-col justify-between select-none">
+    <main className="relative min-h-screen w-full overflow-hidden bg-[#060810] flex flex-col justify-between select-none">
       {/* Background Starfield and Ambient Glow */}
       <BackgroundEffects
         glowColor={currentMeta.glowColor}
@@ -74,48 +98,48 @@ export default function Home() {
           immersiveMode ? 'opacity-0 pointer-events-none -translate-y-6' : 'opacity-100'
         }`}
       >
-        <div className="flex flex-col">
-          <div className="flex items-center gap-2">
-            <span className="text-2xl animate-bounce">🌻</span>
-            <div>
-              <div className="flex items-center gap-2">
-                <h1 className="text-xl sm:text-2xl font-extrabold tracking-tight bg-gradient-to-r from-amber-200 via-yellow-300 to-amber-400 bg-clip-text text-transparent drop-shadow">
-                  Flores Amarillas
-                </h1>
-                <span className="rounded-full bg-amber-400/20 border border-amber-400/40 px-2.5 py-0.5 text-[10px] font-semibold text-amber-300 tracking-wide">
-                  DÍA DE LA PRIMAVERA
-                </span>
-              </div>
-            </div>
+        <div className="flex items-center gap-3">
+          <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-amber-400/[0.08] border border-amber-400/20 text-amber-300 shadow-sm">
+            <Flower2 className="w-5 h-5 stroke-[1.5]" />
           </div>
-          <p className="text-xs sm:text-sm text-zinc-400 font-light flex items-center gap-1.5 mt-0.5">
-            <span className="text-amber-300 font-medium">{currentMeta.name}</span>
-            <span>•</span>
-            <span className="italic text-zinc-400 hidden sm:inline">
-              {currentMeta.tagline}
-            </span>
-          </p>
+          <div>
+            <div className="flex items-baseline gap-2.5">
+              <h1 className="font-serif text-2xl sm:text-3xl font-normal tracking-wide text-amber-50">
+                Flores Amarillas
+              </h1>
+              <span className="hidden sm:inline-block text-[10px] tracking-widest uppercase font-medium text-amber-300/60 border-l border-white/10 pl-2.5">
+                21 de Septiembre
+              </span>
+            </div>
+            <p className="text-xs text-zinc-400 font-light mt-0.5 flex items-center gap-1.5">
+              <span className="text-amber-200/90 font-medium">{currentMeta.name}</span>
+              <span className="text-zinc-600">•</span>
+              <span className="italic text-zinc-500 hidden sm:inline">
+                {currentMeta.tagline}
+              </span>
+            </p>
+          </div>
         </div>
 
         {/* Action Controls */}
-        <div className="flex items-center gap-2 sm:gap-3">
+        <div className="flex items-center gap-2 sm:gap-2.5">
           <MusicBoxPlayer />
 
           <button
             onClick={() => setShowDedication(true)}
-            className="flex items-center gap-2 px-3.5 py-2 rounded-full border border-amber-400/30 bg-amber-400/10 text-amber-300 hover:bg-amber-400/20 text-xs sm:text-sm font-medium transition backdrop-blur-md shadow-lg shadow-amber-500/10"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-white/10 bg-white/[0.04] text-zinc-300 hover:text-white hover:bg-white/[0.08] hover:border-white/20 text-xs font-medium transition backdrop-blur-md"
             title="Abrir carta de dedicatoria de primavera"
           >
-            <span>💌</span>
+            <Mail className="w-3.5 h-3.5 text-amber-300" />
             <span className="hidden sm:inline">Dedicatoria</span>
           </button>
 
           <button
             onClick={() => setImmersiveMode(true)}
-            className="flex items-center justify-center h-9 w-9 rounded-full border border-white/15 bg-white/10 text-zinc-300 hover:text-white hover:bg-white/20 transition backdrop-blur-md"
+            className="flex items-center justify-center h-8 w-8 rounded-full border border-white/10 bg-white/[0.04] text-zinc-400 hover:text-white hover:bg-white/[0.08] hover:border-white/20 transition backdrop-blur-md"
             title="Modo pantalla completa inmersiva"
           >
-            👁️
+            <Maximize2 className="w-3.5 h-3.5" />
           </button>
         </div>
       </header>
@@ -138,21 +162,20 @@ export default function Home() {
             className={`w-full h-[65vh] sm:h-[72vh] flex items-end justify-center relative animate-fadeIn ${
               step < 5 ? 'cursor-pointer group' : ''
             }`}
-            title={step < 5 ? 'Haz click para continuar armando tu ramo' : '¡Ramo completo!'}
+            title={step < 5 ? 'Haz click para continuar armando tu ramo' : 'Ramo completo'}
           >
             {/* Step Helper Badge on top */}
             {step < 5 ? (
-              <div className="absolute top-2 left-1/2 -translate-x-1/2 z-30 px-4 py-2 rounded-full bg-zinc-950/85 border border-amber-400/40 text-amber-200 text-xs sm:text-sm font-medium backdrop-blur-md shadow-2xl flex items-center gap-2 group-hover:scale-105 transition-transform animate-pulse">
-                <span>{currentStepInfo.icon}</span>
-                <span className="font-bold text-amber-300">Paso {step} de 5:</span>
-                <span>{currentStepInfo.title}</span>
-                <span className="text-[11px] text-zinc-400 hidden sm:inline">(Toca para avanzar)</span>
+              <div className="absolute top-2 left-1/2 -translate-x-1/2 z-30 px-3.5 py-1.5 rounded-full bg-[#0c101a]/90 border border-amber-400/25 text-xs text-amber-200/90 font-medium backdrop-blur-md shadow-lg flex items-center gap-2">
+                <span className="inline-block w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse" />
+                <span>Paso {step} de 5:</span>
+                <span className="text-zinc-200 font-semibold">{currentStepInfo.title}</span>
+                <span className="text-zinc-500 text-[11px] hidden sm:inline">• Toca para avanzar</span>
               </div>
             ) : (
-              <div className="absolute top-2 left-1/2 -translate-x-1/2 z-30 px-4 py-1.5 rounded-full bg-amber-400/20 border border-amber-400/50 text-amber-300 text-xs sm:text-sm font-semibold backdrop-blur-md shadow-lg flex items-center gap-2">
-                <span>💛</span>
-                <span>¡Ramo florecido con todo mi cariño!</span>
-                <span>✨</span>
+              <div className="absolute top-2 left-1/2 -translate-x-1/2 z-30 px-4 py-1.5 rounded-full bg-[#0c101a]/90 border border-amber-400/30 text-xs font-serif italic text-amber-100 backdrop-blur-md shadow-lg flex items-center gap-2">
+                <Sparkles className="w-3.5 h-3.5 text-amber-300" />
+                <span>Ramo en plenitud para ti</span>
               </div>
             )}
 
@@ -172,93 +195,87 @@ export default function Home() {
 
       {/* BOTTOM CONTROLS & BOUQUET SELECTOR */}
       <footer
-        className={`relative z-20 w-full max-w-3xl mx-auto p-4 sm:p-6 transition-all duration-500 ${
+        className={`relative z-20 w-full max-w-2xl mx-auto p-4 sm:p-6 transition-all duration-500 ${
           immersiveMode ? 'opacity-0 pointer-events-none translate-y-8' : 'opacity-100'
         }`}
       >
-        <div className="rounded-3xl border border-white/10 bg-zinc-950/80 p-3 sm:p-4 backdrop-blur-2xl shadow-2xl shadow-black/60 flex flex-col gap-3">
-          {/* Flower Selector Pills */}
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-2 sm:gap-4">
-            <span className="text-xs font-semibold uppercase tracking-wider text-amber-300/90 self-start sm:self-center ml-1">
-              Escoge el estilo de tu ramo:
-            </span>
-
-            <div className="grid grid-cols-2 sm:flex items-center gap-1.5 sm:gap-2 w-full sm:w-auto">
-              {FLOWER_OPTIONS.map((flower) => {
-                const isSelected = selectedFlower === flower.id;
-                return (
-                  <button
-                    key={flower.id}
-                    onClick={() => handleSelectFlower(flower.id)}
-                    className={`flex items-center justify-center gap-1.5 px-3 py-2 rounded-2xl text-xs sm:text-sm font-medium transition-all ${
-                      isSelected
-                        ? 'bg-gradient-to-r from-amber-400 via-yellow-400 to-amber-300 text-zinc-950 font-bold shadow-lg shadow-amber-400/30 scale-[1.02]'
-                        : 'bg-white/5 text-zinc-300 hover:bg-white/10 hover:text-white border border-white/5'
-                    }`}
-                  >
-                    <span className="text-base">{flower.icon}</span>
-                    <span>{flower.name.replace('Ramo de ', '').replace('Ramillete ', '')}</span>
-                  </button>
-                );
-              })}
-            </div>
+        <div className="rounded-2xl border border-white/[0.08] bg-[#0c101a]/85 p-3 backdrop-blur-xl shadow-2xl shadow-black/80 flex flex-col gap-2.5">
+          {/* Flower Selector Segmented Control */}
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-1.5">
+            {FLOWER_OPTIONS.map((flower) => {
+              const isSelected = selectedFlower === flower.id;
+              return (
+                <button
+                  key={flower.id}
+                  onClick={() => handleSelectFlower(flower.id)}
+                  className={`flex items-center justify-center gap-2 px-3 py-2 rounded-xl text-xs transition-all ${
+                    isSelected
+                      ? 'bg-amber-400/15 border border-amber-400/40 text-amber-200 font-medium shadow-sm'
+                      : 'bg-white/[0.02] text-zinc-400 hover:text-zinc-200 hover:bg-white/[0.06] border border-transparent'
+                  }`}
+                >
+                  <span className={isSelected ? 'text-amber-300' : 'text-zinc-500'}>
+                    {getFlowerIcon(flower.id)}
+                  </span>
+                  <span>{flower.shortName}</span>
+                </button>
+              );
+            })}
           </div>
 
-          {/* Secondary Controls Bar */}
-          <div className="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-white/10 text-xs text-zinc-400">
-            <div className="flex flex-wrap items-center gap-2">
+          {/* Secondary Utility Controls */}
+          <div className="flex items-center justify-between gap-2 pt-2 border-t border-white/[0.06] text-xs text-zinc-400">
+            <div className="flex items-center gap-1.5">
               {/* Reset to Seed / Build again */}
               <button
                 onClick={handleResetToSeed}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-400/15 hover:bg-amber-400/25 text-amber-300 border border-amber-400/30 transition shadow-sm font-medium"
-                title="Volver a la semilla amarilla para armar tu ramo paso a paso"
+                className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-white/[0.03] hover:bg-white/[0.08] text-zinc-300 hover:text-white border border-white/5 transition"
+                title="Volver a la semilla para armar tu ramo paso a paso"
               >
-                <span>✨</span>
-                <span>Armar paso a paso</span>
+                <RotateCcw className="w-3 h-3 text-amber-300/80" />
+                <span>Armar de nuevo</span>
               </button>
 
               {/* Instant Bloom */}
               {step < 5 && (
                 <button
                   onClick={handleInstantBloom}
-                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/5 hover:bg-white/10 text-zinc-300 hover:text-white transition border border-white/5"
+                  className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-amber-400/10 hover:bg-amber-400/20 text-amber-300 border border-amber-400/20 transition"
                   title="Ver ramo completo florecido de inmediato"
                 >
-                  <span>⚡</span>
-                  <span>Ramo completo</span>
+                  <Sparkles className="w-3 h-3" />
+                  <span>Florecer</span>
                 </button>
               )}
+            </div>
 
+            <div className="flex items-center gap-1.5">
               <button
                 onClick={() => setShowFallingPetals(!showFallingPetals)}
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl transition border ${
+                className={`flex items-center gap-1 px-2.5 py-1 rounded-lg transition border ${
                   showFallingPetals
-                    ? 'bg-amber-400/15 border-amber-400/30 text-amber-300'
-                    : 'bg-white/5 border-white/5 text-zinc-400 hover:text-zinc-200'
+                    ? 'bg-amber-400/10 border-amber-400/25 text-amber-300'
+                    : 'bg-white/[0.02] border-white/5 text-zinc-500 hover:text-zinc-300'
                 }`}
                 title="Activar/desactivar lluvia de pétalos"
               >
-                <span>🍃</span>
-                <span>Pétalos</span>
+                <Wind className="w-3 h-3" />
+                <span className="hidden sm:inline">Pétalos</span>
               </button>
 
               <button
                 onClick={() => setShowFireflies(!showFireflies)}
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl transition border ${
+                className={`flex items-center gap-1 px-2.5 py-1 rounded-lg transition border ${
                   showFireflies
-                    ? 'bg-amber-400/15 border-amber-400/30 text-amber-300'
-                    : 'bg-white/5 border-white/5 text-zinc-400 hover:text-zinc-200'
+                    ? 'bg-amber-400/10 border-amber-400/25 text-amber-300'
+                    : 'bg-white/[0.02] border-white/5 text-zinc-500 hover:text-zinc-300'
                 }`}
-                title="Activar/desactivar luciérnagas doradas"
+                title="Activar/desactivar estrellas y luciérnagas"
               >
-                <span>✨</span>
-                <span>Luciérnagas</span>
+                <Sparkles className="w-3 h-3" />
+                <span className="hidden sm:inline">Luces</span>
               </button>
             </div>
-
-            <span className="italic text-[11px] text-amber-200/70 hidden md:inline">
-              "{currentMeta.tagline}"
-            </span>
           </div>
         </div>
       </footer>
@@ -267,10 +284,10 @@ export default function Home() {
       {immersiveMode && (
         <button
           onClick={() => setImmersiveMode(false)}
-          className="fixed bottom-6 right-6 z-50 flex items-center gap-2 px-4 py-2.5 rounded-full bg-black/60 hover:bg-black/80 border border-white/20 text-white text-xs font-medium backdrop-blur-xl shadow-2xl transition animate-fadeIn"
+          className="fixed bottom-6 right-6 z-50 flex items-center gap-2 px-3.5 py-2 rounded-full bg-[#0c101a]/90 hover:bg-[#0c101a] border border-white/20 text-zinc-200 hover:text-white text-xs font-medium backdrop-blur-xl shadow-2xl transition animate-fadeIn"
         >
-          <span>✕</span>
-          <span>Mostrar Controles</span>
+          <Minimize2 className="w-3.5 h-3.5 text-amber-300" />
+          <span>Restaurar Controles</span>
         </button>
       )}
     </main>

@@ -202,28 +202,33 @@ export default function GoldenSeed({
               animation: isBursting ? 'coreSupernova 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards' : undefined,
             }}
           >
-            {/* Glossy Glass Reflection */}
-            <div className="absolute top-2 left-3 w-6 h-4 rounded-full bg-white/80 blur-[0.6px] rotate-[-25deg]" />
-            <div className="w-8 h-8 rounded-full bg-white/95 blur-[1.5px] shadow-inner" />
-
-            <span className="absolute text-3xl group-hover:rotate-12 group-hover:scale-110 transition-transform duration-300 drop-shadow-[0_2px_8px_rgba(0,0,0,0.4)]">
-              {currentStepInfo.icon}
-            </span>
+            {/* Bespoke Botanical Emblem inside the core */}
+            <svg
+              viewBox="0 0 24 24"
+              className="absolute w-8 h-8 text-amber-900 group-hover:scale-110 transition-transform duration-300 pointer-events-none drop-shadow-sm"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.75"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M12 2a5 5 0 0 0-5 5c0 3 5 8 5 8s5-5 5-8a5 5 0 0 0-5-5z" fill="rgba(254, 240, 138, 0.4)" />
+              <circle cx="12" cy="7" r="2" fill="#78350f" />
+              <path d="M12 15v7" />
+              <path d="M9 19c1.5.5 3 0 3 0s1.5.5 3 0" />
+            </svg>
           </div>
 
-          {/* Dynamic Floating Sparkles */}
-          <span className="absolute -top-3 left-6 text-sm animate-bounce text-yellow-200 drop-shadow-[0_0_4px_rgba(254,240,138,0.8)]">
-            ✦
-          </span>
-          <span className="absolute -bottom-2 right-5 text-sm animate-bounce [animation-delay:0.35s] text-amber-200 drop-shadow-[0_0_4px_rgba(251,191,36,0.8)]">
-            ✦
-          </span>
-          <span className="absolute top-10 -right-4 text-xs animate-bounce [animation-delay:0.6s] text-yellow-100">
-            ✨
-          </span>
-          <span className="absolute top-12 -left-4 text-xs animate-bounce [animation-delay:0.8s] text-amber-300">
-            ✧
-          </span>
+          {/* Clean Vector Starlight Flairs */}
+          <svg className="absolute -top-2 left-6 w-4 h-4 text-amber-200/80 animate-pulse pointer-events-none" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 0L14 9L23 12L14 15L12 24L10 15L1 12L10 9Z" />
+          </svg>
+          <svg className="absolute -bottom-1 right-6 w-3.5 h-3.5 text-yellow-300/80 animate-pulse [animation-delay:0.5s] pointer-events-none" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 0L14 9L23 12L14 15L12 24L10 15L1 12L10 9Z" />
+          </svg>
+          <svg className="absolute top-12 -right-3 w-3 h-3 text-amber-300/60 animate-pulse [animation-delay:1s] pointer-events-none" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 0L14 9L23 12L14 15L12 24L10 15L1 12L10 9Z" />
+          </svg>
         </button>
       </div>
 
@@ -233,17 +238,15 @@ export default function GoldenSeed({
           isBursting ? 'opacity-0 scale-95' : 'opacity-100 scale-100'
         }`}
       >
-        <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-amber-400/15 border border-amber-400/35 text-amber-300 text-xs font-semibold mb-2 shadow-sm backdrop-blur-md">
-          <span>Paso {step} de 5</span>
-          <span>•</span>
+        <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-amber-400/10 border border-amber-400/20 text-amber-200/80 text-[11px] font-medium tracking-wide mb-1.5 backdrop-blur-md">
           <span>{flowerName}</span>
         </div>
 
-        <h4 className="text-lg sm:text-xl font-extrabold text-amber-200 tracking-tight drop-shadow-md">
+        <h3 className="font-serif text-2xl sm:text-3xl font-normal text-amber-50 tracking-wide">
           {currentStepInfo.title}
-        </h4>
+        </h3>
 
-        <p className="text-xs sm:text-sm font-medium text-amber-100/85 mt-1.5 drop-shadow leading-relaxed">
+        <p className="text-xs sm:text-sm text-zinc-400 mt-1 max-w-xs mx-auto leading-relaxed font-light">
           {currentStepInfo.action}
         </p>
 
@@ -252,12 +255,12 @@ export default function GoldenSeed({
           {BUILD_STEPS.map((s) => (
             <div
               key={s.step}
-              className={`h-2 rounded-full transition-all duration-300 ${
+              className={`h-1.5 rounded-full transition-all duration-300 ${
                 step === s.step
-                  ? 'w-7 bg-amber-400 shadow-[0_0_10px_rgba(250,204,21,0.9)]'
+                  ? 'w-6 bg-amber-400 shadow-[0_0_8px_rgba(250,204,21,0.7)]'
                   : step > s.step
-                  ? 'w-2.5 bg-amber-300/80'
-                  : 'w-2 bg-white/20'
+                  ? 'w-2 bg-amber-300/60'
+                  : 'w-1.5 bg-white/15'
               }`}
             />
           ))}

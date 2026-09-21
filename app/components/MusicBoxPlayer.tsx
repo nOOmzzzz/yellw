@@ -2,6 +2,8 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 
+import { Music, VolumeX } from 'lucide-react';
+
 export default function MusicBoxPlayer() {
   const [isPlaying, setIsPlaying] = useState(false);
   const audioCtxRef = useRef<AudioContext | null>(null);
@@ -104,20 +106,24 @@ export default function MusicBoxPlayer() {
   return (
     <button
       onClick={togglePlay}
-      className={`group flex items-center gap-2 px-4 py-2 rounded-full border text-xs sm:text-sm font-medium transition-all backdrop-blur-md shadow-lg ${
+      className={`group flex items-center gap-2 px-3 py-1.5 rounded-full border text-xs font-medium transition-all backdrop-blur-md ${
         isPlaying
-          ? 'bg-amber-400/20 text-amber-300 border-amber-400/50 shadow-amber-500/20 animate-pulse'
-          : 'bg-white/10 text-zinc-300 hover:text-white border-white/15 hover:bg-white/15 hover:border-white/25'
+          ? 'bg-amber-400/15 text-amber-300 border-amber-400/40 shadow-sm'
+          : 'bg-white/[0.04] text-zinc-400 hover:text-zinc-200 border-white/10 hover:bg-white/[0.08] hover:border-white/20'
       }`}
-      title={isPlaying ? 'Pausar música ambiental' : 'Reproducir melodía de caja de música'}
+      title={isPlaying ? 'Pausar melodía' : 'Reproducir melodía'}
     >
-      <span className="text-base">{isPlaying ? '🎵' : '🔇'}</span>
-      <span>{isPlaying ? 'Música activa' : 'Melodía suave'}</span>
+      {isPlaying ? (
+        <Music className="w-3.5 h-3.5 text-amber-300 animate-pulse" />
+      ) : (
+        <VolumeX className="w-3.5 h-3.5 text-zinc-400 group-hover:text-zinc-300" />
+      )}
+      <span className="hidden sm:inline">{isPlaying ? 'Melodía activa' : 'Melodía'}</span>
       {isPlaying && (
-        <span className="flex gap-0.5 items-end h-3 ml-1">
-          <span className="w-0.5 h-3 bg-amber-400 rounded-full animate-bounce" />
-          <span className="w-0.5 h-2 bg-amber-400 rounded-full animate-bounce [animation-delay:0.2s]" />
-          <span className="w-0.5 h-3.5 bg-amber-400 rounded-full animate-bounce [animation-delay:0.4s]" />
+        <span className="flex gap-0.5 items-end h-2.5 ml-0.5">
+          <span className="w-0.5 h-2.5 bg-amber-300 rounded-full animate-bounce" />
+          <span className="w-0.5 h-1.5 bg-amber-300 rounded-full animate-bounce [animation-delay:0.2s]" />
+          <span className="w-0.5 h-3 bg-amber-300 rounded-full animate-bounce [animation-delay:0.4s]" />
         </span>
       )}
     </button>

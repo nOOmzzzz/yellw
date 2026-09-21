@@ -66,7 +66,7 @@ export default function FallingPetals({ active = true }: { active?: boolean }) {
             style={{
               width: `${p.size}px`,
               height: `${p.size * 1.5}px`,
-              background: `radial-gradient(ellipse at 30% 20%, #fff 0%, ${p.color} 70%, #d97706 100%)`,
+              background: `radial-gradient(ellipse at 30% 20%, #fefce8 0%, ${p.color} 70%, #d97706 100%)`,
               borderRadius: '50% 50% 50% 50% / 60% 60% 40% 40%',
               boxShadow: '0 2px 8px rgba(234, 179, 8, 0.35)',
               transform: `rotate(${p.rotation}deg)`,

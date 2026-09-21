@@ -481,7 +481,7 @@ export default function Bouquet({ step = 5 }: { step?: number }) {
               strokeWidth="2.5"
               filter="drop-shadow(0 2px 6px rgba(0,0,0,0.6))"
             />
-            <circle cx="-3" cy="-1" r="3.5" fill="#ffffff" opacity="0.6" />
+            <circle cx="-3" cy="-1" r="3.5" fill="#fffdf5" opacity="0.6" />
           </g>
         </g>
       </svg>
